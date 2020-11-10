@@ -28,12 +28,20 @@ import time
 m = loadU08520Map()
 
 
-interval = 0.1
+interval = 0.5
 
+# current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)  #
 current_pose = Frame2D.fromXYA(200, 700, -3.1416 / 2)  #
+x0 = current_pose.toXYA()[0]
+y0 = current_pose.toXYA()[1]
+a0 = current_pose.toXYA()[2]
 
 # TODO allow the target to be chosen as console parameter
-target_pose = Frame2D.fromXYA(200, 200, -3.1416/2)  # 3.1416
+# target_pose = Frame2D.fromXYA(100, 100, -3.1416/2)  # 3.1416
+target_pose = Frame2D.fromXYA(200, 200, -3.1416/2)
+x1 = target_pose.toXYA()[0]
+y1 = target_pose.toXYA()[1]
+a1 = target_pose.toXYA()[2]
 
 
 def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
@@ -46,10 +54,13 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		# TODO --- Does not work, cozmo goes in the right direction but does not stop and oscillates
 		target_pose = Frame2D.inverse(target_pose)
 		relative_target = Frame2D.mult(current_pose, target_pose)
-
+		rel_tag = relative_target.toXYA()
+		x = rel_tag[0]
+		y = rel_tag[1]
+		a = rel_tag[2]
 
 		print("relative_target"+str(relative_target), end="\r\n")
-		velocity = target_pose_to_velocity_linear(relative_target)
+		velocity = target_pose_to_velocity_linear(current_pose, relative_target)
 		print("velocity"+str(velocity), end="\r\n")
 		track_speed = velocity_to_track_speed(velocity[0],velocity[1])
 		print("trackSpeedCommand"+str(track_speed), end="\r\n")
@@ -59,9 +70,16 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		delta = track_speed_to_pose_change(lspeed, rspeed, interval)
 		current_pose = Frame2D.mult(current_pose, delta)
 		print("current_pose"+str(current_pose), end="\r\n")
+		print("target_pose" + str(target_pose), end="\r\n")
 		print()
 		simWorld.drive_wheel_motors(track_speed[0], track_speed[1])
 		time.sleep(interval)
+
+		#if
+
+		if math.fabs(x) < 70 and math.fabs(y) < 70:  # and math.fabs(a) <= 0.15:
+			finished.set()
+
 
 
 def cozmo_program(simWorld: CozmoSimWorld):

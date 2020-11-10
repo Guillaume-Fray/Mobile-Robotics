@@ -4,7 +4,6 @@ from frame2d import Frame2D
 import math
 import numpy as np
 
-
 wheelDistance = 81  # or 82
 
 # TODO find sensible noise amplitudes for motor model
@@ -15,15 +14,15 @@ cozmoOdomNoiseTheta = 0.01
 
 # Forward kinematics: compute coordinate frame update as Frame2D from left/right track speed and time of movement
 def track_speed_to_pose_change(left, right, time):
-    # when cozmo goes straight
-    if left == right:
-        frame = Frame2D.fromXYA(left*time, 0., 0.)
+    # when cozmo goes straight-ish
+    if math.fabs(left - right) < 0.5:
+        frame = Frame2D.fromXYA(left * time, 0., 0.)
 
     # when cozmo turns (+ when turns left, - when turns right --> trigonometric direction = anticlockwise)
     else:
-        theta = ((right - left)*time) / wheelDistance
-        r = ((left + right)*time) / (2 * theta)
-        frame = Frame2D.fromXYA(r*math.sin(theta), -r*(math.cos(theta)-1), theta)
+        theta = ((right - left) * time) / wheelDistance
+        r = ((left + right) * time) / (2 * theta)
+        frame = Frame2D.fromXYA(r * math.sin(theta), -r * (math.cos(theta) - 1), theta)
 
     # createStraightTrackSpeeds()
     return frame
@@ -31,7 +30,6 @@ def track_speed_to_pose_change(left, right, time):
 
 # Differential inverse kinematics: compute left/right track speed from desired angular and forward velocity
 def velocity_to_track_speed(forward, angular):
-
     # when cozmo goes straight
     if angular == 0:
         left = forward
@@ -39,8 +37,8 @@ def velocity_to_track_speed(forward, angular):
 
     # when cozmo turns
     else:
-        left = forward - ((angular*wheelDistance)/2)
-        right = forward + ((angular*wheelDistance)/2)
+        left = forward - ((angular * wheelDistance) / 2)
+        right = forward + ((angular * wheelDistance) / 2)
 
     return [left, right]
 
@@ -50,26 +48,75 @@ def velocity_to_track_speed(forward, angular):
 # If far away and facing wrong direction: rotate to face target
 # If far away and facing target: move forward
 # If on target: turn to desired orientation
-def target_pose_to_velocity_linear(relative_target: Frame2D):
+well_oriented = False  # global variable to stop cozmo from spinning on the spot once it is well orientated
+final_orientation = False  # global variable for cozmo to adjust its orientation once it's reached final position
 
-    s = 30  # appears to be a reasonable experimental speed
+def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):  #bool
 
-    target_position = Frame2D.toXYA(relative_target)
-    x = target_position[0]
-    y = target_position[1]
-    a = target_position[2]
+    global well_oriented
+    s = 60
 
-    if x == 0 and y == 0 and a != 0:
-        angular = a
-        velocity = 0
+    rel_target_position = Frame2D.toXYA(relative_target)
+    x2 = rel_target_position[0]
+    y2 = rel_target_position[1]
+    a2 = rel_target_position[2]
+    d = math.sqrt(x2*x2 + y2*y2) # distance between current position and target position
+    # cos_a = relative_target.mat[0, 0]
 
-    elif a == 0:
-        angular = 0
-        velocity = s
+    cur_position = Frame2D.toXYA(current_pose)
+    a1 = cur_position[2]
+
+    alpha = math.atan2(y2, x2) - math.pi/2
+    print('a1 = ', a1)
+    print('a2 = ', a2)
+    print('alpha = ', alpha)
+    print('\n')
+
+    # difference used to get cozmo to turn in the adequate direction (left or right)
+    if a1 > 0 and alpha > 0:
+        if alpha > a1:
+            difference = alpha - a1
+        else:
+            difference = a1 - alpha
+
+    elif a1 < 0 and alpha < 0:
+        if alpha > a1:
+            difference = alpha - a1
+        else:
+            difference = -a1 - alpha
 
     else:
-        angular = a
-        velocity = s
+        difference = alpha + a1
+
+    print('difference is: ', difference)
+    print('\n')
+
+    # target far away
+    if d > 70:
+
+        # facing target
+        if well_oriented:
+            velocity = s
+            angular = 0
+
+        # wrong orientation
+        elif not well_oriented and math.fabs(difference) > 0.13:
+            # cozmo needs to turn anticlockwise
+            if difference < 0:
+                angular = -1
+                velocity = 0
+            # cozmo needs to turn clockwise
+            else:
+                angular = 1
+                velocity = 0
+
+        else:
+            well_oriented = True
+
+    # on target
+    else:
+        velocity = 0
+        angular = 0
 
     return [velocity, angular]
 
@@ -77,7 +124,6 @@ def target_pose_to_velocity_linear(relative_target: Frame2D):
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement by means of cubic spline interpolation 
 def target_pose_to_velocity_spline(relative_target: Frame2D):
-
     arc_length = 1  # TODO --- Choose arc_length --- to be experimented further once function is fixed
     s = 30
 
@@ -87,9 +133,9 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
     a = target_position[2]
 
     vy = 0  # TODO --- vy = final velocity's y component. Is it not = to 0 for small angular velocity values???
-    k = (2*((3*y)-(s*vy)))/(s*s)  # k = curvature = radius of osculating circle
+    k = (2 * ((3 * y) - (s * vy))) / (s * s)  # k = curvature = radius of osculating circle
     velocity = arc_length  # forward velocity
-    angular = arc_length*k  # angular velocity
+    angular = arc_length * k  # angular velocity
 
     return [velocity, angular]
 
@@ -99,4 +145,3 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
 # measure position (relative to robot frame)
 def cube_sensor_model(true_cube_position, visible, measured_position):
     return 1.0
-

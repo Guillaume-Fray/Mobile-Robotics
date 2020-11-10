@@ -27,7 +27,7 @@ m = loadU08520Map()
 
 def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
-	time.sleep(5)
+	#time.sleep(4)
 
 	print("\n")
 	print("\n")
@@ -45,16 +45,36 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 		# print("Straight", end="\r\n")
 		# time.sleep(8)
-		# simWorld.drive_wheel_motors(20,20)
+		# simWorld.drive_wheel_motors(30, 30)
 		# time.sleep(30)
-		time.sleep(20)
-
 		# time.sleep(20)
-		# print("Turn _", end="\r\n")
 
-		print("Full circle _", end="\r\n")
-		simWorld.drive_wheel_motors(24, 12)
-		time.sleep(53.5)
+		# print("Turn _", end="\r\n")
+		# time.sleep(8)
+		# simWorld.drive_wheel_motors(5, 15)
+
+		# print("Full circle _", end="\r\n")
+		# simWorld.drive_wheel_motors(24, 12)
+		# time.sleep(53.5)
+
+		print("Rectangle", end="\r\n")
+		simWorld.drive_wheel_motors(60, 60)
+		time.sleep(10)
+		simWorld.drive_wheel_motors(22, -22)
+		time.sleep(3.6)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(5)
+		simWorld.drive_wheel_motors(22, -22)
+		time.sleep(3.6)
+		simWorld.drive_wheel_motors(60, 60)
+		time.sleep(10)
+		simWorld.drive_wheel_motors(22, -22)
+		time.sleep(3.6)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(4.5)
+		simWorld.drive_wheel_motors(22, -22)
+		time.sleep(3.6)
+
 
 		print("Stop", end="\r\n")
 		simWorld.drive_wheel_motors(0, 0)
@@ -79,8 +99,8 @@ def cozmo_update_position(simWorld: CozmoSimWorld, finished):
 		lspeed = simWorld.left_wheel_speed()
 		rspeed = simWorld.right_wheel_speed()
 		delta = track_speed_to_pose_change(lspeed, rspeed, interval)
-		print(lspeed, " ", rspeed, " ", currentPose, " ", delta, end="\r\n")
-		currentPose = Frame2D.mult(currentPose, delta)
+		print(lspeed, " ", rspeed, " ", current_pose, " ", delta, end="\r\n")
+		current_pose = Frame2D.mult(current_pose, delta)
 		time.sleep(interval)
 
 

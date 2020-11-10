@@ -43,10 +43,10 @@ class Frame2D:
             return f
     
     def toXYA(self):
-        return np.array([self.mat[0,2], self.mat[1,2], self.angle()])
+        return np.array([self.mat[0, 2], self.mat[1, 2], self.angle()])
 
     def __str__(self):
-        return "[x="+str(self.mat[0,2])+",y="+str(self.mat[1,2])+",a="+str(self.angle())+"]"
+        return "[x="+str(self.mat[0, 2])+",y="+str(self.mat[1, 2])+",a="+str(self.angle())+"]"
     
     def inverse(self):
         return Frame2D.fromMat(np.linalg.inv(self.mat))
@@ -58,11 +58,11 @@ class Frame2D:
         return f
 
     def x(self):
-        return self.mat[0,2]
+        return self.mat[0, 2]
 
     def y(self):
-        return self.mat[1,2]
+        return self.mat[1, 2]
 
     def angle(self):
-        return math.atan2(self.mat[1,0],self.mat[0,0])
+        return math.atan2(self.mat[1, 0], self.mat[0, 0])
 
