@@ -49,15 +49,14 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	global target_pose
 
 	while not finished.is_set():
-		# TODO determine current position of target relative to robot
-
-		# TODO --- Does not work, cozmo goes in the right direction but does not stop and oscillates
-		target_pose = Frame2D.inverse(target_pose)
-		relative_target = Frame2D.mult(current_pose, target_pose)
+		# TODO --- distance is finally right every time but cozmo keeps spinning
+		inv_current_pose = current_pose.inverse()
+		relative_target = inv_current_pose.mult(target_pose)
 		rel_tag = relative_target.toXYA()
 		x = rel_tag[0]
 		y = rel_tag[1]
 		a = rel_tag[2]
+		d = math.sqrt(x * x + y * y)  # distance between current position and target position
 
 		print("relative_target"+str(relative_target), end="\r\n")
 		velocity = target_pose_to_velocity_linear(current_pose, relative_target)
@@ -77,7 +76,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 		#if
 
-		if math.fabs(x) < 70 and math.fabs(y) < 70:  # and math.fabs(a) <= 0.15:
+		if d < 40:  # and math.fabs(a) <= 0.15:
 			finished.set()
 
 

@@ -43,16 +43,16 @@ def velocity_to_track_speed(forward, angular):
     return [left, right]
 
 
+well_oriented = False  # global variable to stop cozmo from spinning on the spot once it is well orientated
+final_orientation = False  # global variable for cozmo to adjust its orientation once it's reached final position
+
+
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement in a linear way
 # If far away and facing wrong direction: rotate to face target
 # If far away and facing target: move forward
 # If on target: turn to desired orientation
-well_oriented = False  # global variable to stop cozmo from spinning on the spot once it is well orientated
-final_orientation = False  # global variable for cozmo to adjust its orientation once it's reached final position
-
 def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):  #bool
-
     global well_oriented
     s = 60
 
@@ -60,7 +60,9 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     x2 = rel_target_position[0]
     y2 = rel_target_position[1]
     a2 = rel_target_position[2]
-    d = math.sqrt(x2*x2 + y2*y2) # distance between current position and target position
+    d = math.sqrt(x2*x2 + y2*y2)  # distance between current position and target position
+    print('distance = ', d)
+
     # cos_a = relative_target.mat[0, 0]
 
     cur_position = Frame2D.toXYA(current_pose)
@@ -73,20 +75,21 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     print('\n')
 
     # difference used to get cozmo to turn in the adequate direction (left or right)
-    if a1 > 0 and alpha > 0:
-        if alpha > a1:
-            difference = alpha - a1
+    # work with cos instead
+    if a2 > 0 and alpha > 0:
+        if alpha > a2:
+            difference = alpha - a2
         else:
-            difference = a1 - alpha
+            difference = a2 - alpha
 
-    elif a1 < 0 and alpha < 0:
-        if alpha > a1:
-            difference = alpha - a1
+    elif a2 < 0 and alpha < 0:
+        if alpha > a2:
+            difference = alpha - a2
         else:
-            difference = -a1 - alpha
+            difference = -a2 - alpha
 
     else:
-        difference = alpha + a1
+        difference = alpha + a2
 
     print('difference is: ', difference)
     print('\n')
@@ -101,17 +104,13 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 
         # wrong orientation
         elif not well_oriented and math.fabs(difference) > 0.13:
-            # cozmo needs to turn anticlockwise
-            if difference < 0:
-                angular = -1
-                velocity = 0
-            # cozmo needs to turn clockwise
-            else:
                 angular = 1
                 velocity = 0
 
         else:
             well_oriented = True
+            angular = 0
+            velocity = s
 
     # on target
     else:
