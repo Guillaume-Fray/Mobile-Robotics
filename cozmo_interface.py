@@ -105,11 +105,11 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
         # ensures that cozmo rotates to face target
         # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad
         elif not well_oriented and difference > 0.0523598776:
-                angular = -1
+                angular = 1
                 velocity = 0
 
         elif not well_oriented and difference < -0.0523598776:
-                angular = 1
+                angular = -1
                 velocity = 0
 
         else:
