@@ -31,14 +31,14 @@ m = loadU08520Map()
 interval = 0.5
 
 # current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)  #
-current_pose = Frame2D.fromXYA(100, 600, 0)  #
+current_pose = Frame2D.fromXYA(100, 600, -3.1416 / 2)  #
 x0 = current_pose.toXYA()[0]
 y0 = current_pose.toXYA()[1]
 a0 = current_pose.toXYA()[2]
 
 # TODO allow the target to be chosen as console parameter
 # target_pose = Frame2D.fromXYA(100, 100, -3.1416/2)  # 3.1416
-target_pose = Frame2D.fromXYA(600, 600, 0)
+target_pose = Frame2D.fromXYA(100, 100, -3.1416 / 2)
 x1 = target_pose.toXYA()[0]
 y1 = target_pose.toXYA()[1]
 a1 = target_pose.toXYA()[2]
@@ -49,7 +49,8 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	global target_pose
 
 	while not finished.is_set():
-		# TODO --- works when cozmo faces target with same x but not with same y
+		# TODO --- I Finally FOUND the origin of my problem: relative target calculation is inconsistent, sometimes
+		# TODO --- it inverses x and y!!! If program runs 10 times: 5 times it works, the other 5 it doesn't
 		inv_current_pose = current_pose.inverse()
 		relative_target = inv_current_pose.mult(target_pose)
 		rel_tag = relative_target.toXYA()
@@ -67,7 +68,8 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		rspeed = simWorld.right_wheel_speed()
 		print("track_speed"+str([lspeed, rspeed]), end="\r\n")
 		delta = track_speed_to_pose_change(lspeed, rspeed, interval)
-		current_pose = Frame2D.mult(current_pose, delta)
+		# TODO more elegant
+		current_pose = current_pose.mult(delta)
 		print("current_pose"+str(current_pose), end="\r\n")
 		print("target_pose" + str(target_pose), end="\r\n")
 		print()

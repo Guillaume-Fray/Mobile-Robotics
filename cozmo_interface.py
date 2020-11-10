@@ -68,15 +68,11 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     cur_position = Frame2D.toXYA(current_pose)
     a1 = cur_position[2]
 
-    alpha = math.atan2(y2, x2)  # TODO I had forgotten to remove the - pi/2 factor I had added to desperately try to
-                                # TODO compensate for my relative target error due to wrong calculation
+    alpha = math.atan2(y2, x2)
     print('a1 = ', a1)
     print('a2 = ', a2)
     print('alpha = ', alpha)
-    # TODO    alpha changes after every time interval when it shouldn't whether the orientation is right or not.
-    # TODO    It should always be close to 0 (or to 2*pi) when target and current pose have same x or same y
-    # TODO    This is why it keeps spinning!!! Once alpha is fixed, all I need to do is ensure a1 = alpha and stops
-    # TODO    angular motion until cozmo reaches target
+    # TODO    alpha changes because sometimes relative target is totally wrong
     print('\n')
 
     # target far away
