@@ -52,7 +52,7 @@ final_orientation = False  # global variable for cozmo to adjust its orientation
 # If far away and facing wrong direction: rotate to face target
 # If far away and facing target: move forward
 # If on target: turn to desired orientation
-def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):  #bool
+def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):
     global well_oriented
     s = 60
 
@@ -72,26 +72,10 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     print('a1 = ', a1)
     print('a2 = ', a2)
     print('alpha = ', alpha)
-    print('\n')
-
-    # difference used to get cozmo to turn in the adequate direction (left or right)
-    # work with cos instead
-    if a2 > 0 and alpha > 0:
-        if alpha > a2:
-            difference = alpha - a2
-        else:
-            difference = a2 - alpha
-
-    elif a2 < 0 and alpha < 0:
-        if alpha > a2:
-            difference = alpha - a2
-        else:
-            difference = -a2 - alpha
-
-    else:
-        difference = alpha + a2
-
-    print('difference is: ', difference)
+    # TODO    alpha changes after every time interval when it shouldn't whether the orientation is right or not.
+    # TODO    It should always be close to 0 (or to 2*pi) when target and current pose have same x or same y
+    # TODO    This is why it keeps spinning!!! Once alpha is fixed, all I need to do is ensure a1 = alpha and stops
+    # TODO    angular motion until cozmo reaches target
     print('\n')
 
     # target far away
@@ -103,7 +87,9 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
             angular = 0
 
         # wrong orientation
-        elif not well_oriented and math.fabs(difference) > 0.13:
+        # check that the absolute difference of the cos values of alpha and a1 (current cozmo angle) < 1 degree
+        # 1 degree = pi/180 = 0.01745329252 and cos(pi/180) = 0.9998476951
+        elif not well_oriented and math.fabs((math.fabs(math.cos(alpha)))-(math.fabs(math.cos(a1)))) < 0.087265:
                 angular = 1
                 velocity = 0
 

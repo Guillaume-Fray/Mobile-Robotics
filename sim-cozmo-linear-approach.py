@@ -49,7 +49,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	global target_pose
 
 	while not finished.is_set():
-		# TODO --- distance is finally right every time but cozmo keeps spinning
+		# TODO --- distance is finally right every time (+- 15) but cozmo keeps spinning!!!
 		inv_current_pose = current_pose.inverse()
 		relative_target = inv_current_pose.mult(target_pose)
 		rel_tag = relative_target.toXYA()
