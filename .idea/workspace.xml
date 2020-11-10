@@ -28,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="462">
-              <caret line="77" column="55" selection-start-line="77" selection-start-column="55" selection-end-line="77" selection-end-column="55" />
+            <state relative-caret-position="241">
+              <caret line="71" column="103" lean-forward="true" selection-start-line="71" selection-start-column="103" selection-end-line="71" selection-end-column="103" />
               <folding>
                 <element signature="e#24#51#0" expanded="true" />
               </folding>
@@ -40,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="493">
-              <caret line="51" column="91" selection-start-line="51" selection-start-column="91" selection-end-line="51" selection-end-column="91" />
+            <state relative-caret-position="448">
+              <caret line="51" column="80" selection-start-line="51" selection-start-column="80" selection-end-line="51" selection-end-column="80" />
               <folding>
                 <element signature="e#25#39#0" expanded="true" />
               </folding>
@@ -88,8 +88,8 @@
         <option value="$PROJECT_DIR$/sim-cozmo-odometry.py" />
         <option value="$PROJECT_DIR$/run-cozmo-odometry.py" />
         <option value="$PROJECT_DIR$/frame2d.py" />
-        <option value="$PROJECT_DIR$/sim-cozmo-linear-approach.py" />
         <option value="$PROJECT_DIR$/cozmo_interface.py" />
+        <option value="$PROJECT_DIR$/sim-cozmo-linear-approach.py" />
       </list>
     </option>
   </component>
@@ -301,12 +301,12 @@
       <workItem from="1603823559181" duration="9476000" />
       <workItem from="1603981413945" duration="16065000" />
       <workItem from="1604572383994" duration="1899000" />
-      <workItem from="1604874790838" duration="23134000" />
+      <workItem from="1604874790838" duration="24838000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="143381000" />
+    <option name="totallyTimeSpent" value="145085000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -553,22 +553,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
+    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="493">
-          <caret line="51" column="91" selection-start-line="51" selection-start-column="91" selection-end-line="51" selection-end-column="91" />
+        <state relative-caret-position="241">
+          <caret line="71" column="103" lean-forward="true" selection-start-line="71" selection-start-column="103" selection-end-line="71" selection-end-column="103" />
           <folding>
-            <element signature="e#25#39#0" expanded="true" />
+            <element signature="e#24#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
+    <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="462">
-          <caret line="77" column="55" selection-start-line="77" selection-start-column="55" selection-end-line="77" selection-end-column="55" />
+        <state relative-caret-position="448">
+          <caret line="51" column="80" selection-start-line="51" selection-start-column="80" selection-end-line="51" selection-end-column="80" />
           <folding>
-            <element signature="e#24#51#0" expanded="true" />
+            <element signature="e#25#39#0" expanded="true" />
           </folding>
         </state>
       </provider>
