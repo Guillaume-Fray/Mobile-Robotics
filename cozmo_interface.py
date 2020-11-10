@@ -59,7 +59,7 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     rel_target_position = Frame2D.toXYA(relative_target)
     x2 = rel_target_position[0]
     y2 = rel_target_position[1]
-    a2 = rel_target_position[2]
+    a2 = -rel_target_position[2]
     d = math.sqrt(x2*x2 + y2*y2)  # distance between current position and target position
     print('distance = ', d)
 
@@ -68,11 +68,29 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     cur_position = Frame2D.toXYA(current_pose)
     a1 = cur_position[2]
 
-    alpha = math.atan2(y2, x2)
+    alpha = math.atan2(math.fabs(y2), math.fabs(x2))
     print('a1 = ', a1)
     print('a2 = ', a2)
     print('alpha = ', alpha)
-    # TODO    alpha changes because sometimes relative target is totally wrong
+    print('\n')
+
+    # difference used to get cozmo to turn in the adequate direction (left or right)
+    if a1 > 0 and alpha > 0:
+        if alpha > a1:
+            difference = alpha - a1
+        else:
+            difference = a1 - alpha
+
+    elif a1 < 0 and alpha < 0:
+        if alpha > a1:
+            difference = alpha - a1
+        else:
+            difference = -a1 - alpha
+
+    else:
+        difference = alpha + a1
+
+    print('difference is: ', difference)
     print('\n')
 
     # target far away
@@ -84,9 +102,13 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
             angular = 0
 
         # wrong orientation
-        # check that the absolute difference of the cos values of alpha and a1 (current cozmo angle) < 1 degree
+        # ensures that cozmo rotates to face target
         # 5 degrees = pi/180 * 5 = 0.087265
-        elif not well_oriented and math.fabs((math.fabs(math.cos(alpha)))-(math.fabs(math.cos(a1)))) < 0.087265:
+        elif not well_oriented and difference > 0.087265:
+                angular = -1
+                velocity = 0
+
+        elif not well_oriented and difference < -0.087265:
                 angular = 1
                 velocity = 0
 
