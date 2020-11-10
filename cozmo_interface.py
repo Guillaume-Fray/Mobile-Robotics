@@ -85,10 +85,10 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
         if alpha > a1:
             difference = alpha - a1
         else:
-            difference = -a1 - alpha
+            difference = -a1 + alpha
 
     else:
-        difference = alpha + a1
+        difference = alpha - a1
 
     print('difference is: ', difference)
     print('\n')
@@ -104,12 +104,12 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
         # wrong orientation
         # ensures that cozmo rotates to face target
         # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad
-        elif not well_oriented and difference > 0.0523598776:
-                angular = 1
+        elif not well_oriented and difference > 0.087265:
+                angular = 1.5
                 velocity = 0
 
-        elif not well_oriented and difference < -0.0523598776:
-                angular = -1
+        elif not well_oriented and difference < -0.087265:
+                angular = -1.5
                 velocity = 0
 
         else:
