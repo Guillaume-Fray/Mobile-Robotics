@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31624484-cd2b-4714-80e8-7cc0f59a1611" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/cozmo_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/cozmo_interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sim-cozmo-linear-approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/sim-cozmo-linear-approach.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Main issue - relative target calculation.png" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -42,7 +41,7 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="254">
+            <state relative-caret-position="33">
               <caret line="52" column="67" selection-start-line="52" selection-start-column="67" selection-end-line="52" selection-end-column="67" />
               <folding>
                 <element signature="e#25#39#0" expanded="true" />
@@ -300,12 +299,12 @@
       <workItem from="1603823559181" duration="9476000" />
       <workItem from="1603981413945" duration="16065000" />
       <workItem from="1604572383994" duration="1899000" />
-      <workItem from="1604874790838" duration="26890000" />
+      <workItem from="1604874790838" duration="27084000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147137000" />
+    <option name="totallyTimeSpent" value="147331000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -564,7 +563,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="254">
+        <state relative-caret-position="33">
           <caret line="52" column="67" selection-start-line="52" selection-start-column="67" selection-end-line="52" selection-end-column="67" />
           <folding>
             <element signature="e#25#39#0" expanded="true" />
