@@ -30,8 +30,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="358">
-              <caret line="111" column="26" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
+            <state relative-caret-position="-267">
+              <caret line="70" column="30" lean-forward="true" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
               <folding>
                 <element signature="e#24#51#0" expanded="true" />
               </folding>
@@ -42,8 +42,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
-              <caret line="66" column="45" lean-forward="true" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
+            <state relative-caret-position="308">
+              <caret line="54" column="83" selection-start-line="54" selection-start-column="83" selection-end-line="54" selection-end-column="83" />
               <folding>
                 <element signature="e#25#39#0" expanded="true" />
               </folding>
@@ -300,12 +300,12 @@
       <workItem from="1603823559181" duration="9476000" />
       <workItem from="1603981413945" duration="16065000" />
       <workItem from="1604572383994" duration="1899000" />
-      <workItem from="1604874790838" duration="35135000" />
+      <workItem from="1604874790838" duration="38143000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="155382000" />
+    <option name="totallyTimeSpent" value="158390000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -335,13 +335,13 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32857144" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.48979592" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.4030612" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" sideWeight="0.868" visible="true" weight="0.26923078" />
+      <window_info anchor="right" id="SciView" order="3" sideWeight="0.8683761" visible="true" weight="0.26923078" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" order="5" sideWeight="0.132" side_tool="true" visible="true" weight="0.26923078" />
+      <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" order="5" sideWeight="0.13162394" side_tool="true" visible="true" weight="0.26923078" />
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -557,8 +557,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="358">
-          <caret line="111" column="26" selection-start-line="111" selection-start-column="26" selection-end-line="111" selection-end-column="26" />
+        <state relative-caret-position="-267">
+          <caret line="70" column="30" lean-forward="true" selection-start-line="70" selection-start-column="30" selection-end-line="70" selection-end-column="30" />
           <folding>
             <element signature="e#24#51#0" expanded="true" />
           </folding>
@@ -567,8 +567,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="66" column="45" lean-forward="true" selection-start-line="66" selection-start-column="45" selection-end-line="66" selection-end-column="45" />
+        <state relative-caret-position="308">
+          <caret line="54" column="83" selection-start-line="54" selection-start-column="83" selection-end-line="54" selection-end-column="83" />
           <folding>
             <element signature="e#25#39#0" expanded="true" />
           </folding>

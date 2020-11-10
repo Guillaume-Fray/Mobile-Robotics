@@ -28,17 +28,17 @@ import time
 m = loadU08520Map()
 
 
-interval = 0.2
+interval = 0.3
 
 # current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)  #
-current_pose = Frame2D.fromXYA(300, 700, 0)  #
+current_pose = Frame2D.fromXYA(200, 700, 0)  #
 x0 = current_pose.toXYA()[0]
 y0 = current_pose.toXYA()[1]
 a0 = current_pose.toXYA()[2]
 
 # TODO allow the target to be chosen as console parameter
 # target_pose = Frame2D.fromXYA(100, 100, -3.1416/2)  # 3.1416
-target_pose = Frame2D.fromXYA(100, 100, 0)
+target_pose = Frame2D.fromXYA(400, 100, 0)
 x1 = target_pose.toXYA()[0]
 y1 = target_pose.toXYA()[1]
 a1 = target_pose.toXYA()[2]
@@ -50,8 +50,12 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 	while not finished.is_set():
 		# TODO --- "Rotation and stop" part seems to be working. Needs more testing to verify
+		# TODO --- No sometimes it mirrors the destination with respect to the x-axis
+		# TODO --- It seems that the signs of the relative_target coordinates x and y are wrong
+		# TODO --- x and y are positive when they should be negative and vice-versa
 		inv_target_pose = target_pose.inverse()
 		relative_target = inv_target_pose.mult(current_pose)
+
 		rel_tag = relative_target.toXYA()
 		x = rel_tag[0]
 		y = rel_tag[1]
@@ -76,7 +80,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 		#if
 
-		if d < 40:  # and math.fabs(a) <= 0.15:
+		if d < 70:  # and math.fabs(a) <= 0.15:
 			finished.set()
 
 

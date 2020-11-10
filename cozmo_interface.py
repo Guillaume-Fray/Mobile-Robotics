@@ -15,7 +15,7 @@ cozmoOdomNoiseTheta = 0.01
 # Forward kinematics: compute coordinate frame update as Frame2D from left/right track speed and time of movement
 def track_speed_to_pose_change(left, right, time):
     # when cozmo goes straight-ish
-    if math.fabs(left - right) < 0.5:
+    if math.fabs(left - right) < 0.1:
         frame = Frame2D.fromXYA(left * time, 0., 0.)
 
     # when cozmo turns (+ when turns left, - when turns right --> trigonometric direction = anticlockwise)
@@ -59,7 +59,7 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     rel_target_position = Frame2D.toXYA(relative_target)
     x2 = rel_target_position[0]
     y2 = rel_target_position[1]
-    a2 = -rel_target_position[2]
+    a2 = rel_target_position[2]
     d = math.sqrt(x2*x2 + y2*y2)  # distance between current position and target position
     print('distance = ', d)
 
@@ -68,13 +68,13 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     cur_position = Frame2D.toXYA(current_pose)
     a1 = cur_position[2]
 
-    alpha = math.atan2(math.fabs(y2), math.fabs(x2))
+    alpha = math.atan2(y2, x2)
     print('a1 = ', a1)
     print('a2 = ', a2)
     print('alpha = ', alpha)
     print('\n')
 
-    # difference used to get cozmo to turn in the adequate direction (left or right)
+    # difference used to get cozmo to rotate in the adequate direction (left or right) to face target
     if a1 > 0 and alpha > 0:
         if alpha > a1:
             difference = alpha - a1
@@ -103,12 +103,12 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 
         # wrong orientation
         # ensures that cozmo rotates to face target
-        # 5 degrees = pi/180 * 5 = 0.087265
-        elif not well_oriented and difference > 0.087265:
+        # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad
+        elif not well_oriented and difference > 0.0523598776:
                 angular = -1
                 velocity = 0
 
-        elif not well_oriented and difference < -0.087265:
+        elif not well_oriented and difference < -0.0523598776:
                 angular = 1
                 velocity = 0
 
