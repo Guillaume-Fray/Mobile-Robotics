@@ -45,6 +45,8 @@ def velocity_to_track_speed(forward, angular):
 
 well_oriented = False  # global variable to stop cozmo from spinning on the spot once it is well orientated
 final_orientation = False  # global variable for cozmo to adjust its orientation once it's reached final position
+alpha_set = False
+alpha = 0
 
 
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
@@ -54,6 +56,8 @@ final_orientation = False  # global variable for cozmo to adjust its orientation
 # If on target: turn to desired orientation
 def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):
     global well_oriented
+    global alpha_set
+    global alpha
     s = 60
 
     rel_target_position = Frame2D.toXYA(relative_target)
@@ -68,27 +72,20 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     cur_position = Frame2D.toXYA(current_pose)
     a1 = cur_position[2]
 
-    alpha = math.atan2(y2, x2)
+    # TODO alpha should not vary
+    if not alpha_set:
+        alpha = math.atan2(y2, x2)
+        alpha_set = True
+    else:
+        alpha = alpha
     print('a1 = ', a1)
     print('a2 = ', a2)
     print('alpha = ', alpha)
     print('\n')
 
     # difference used to get cozmo to rotate in the adequate direction (left or right) to face target
-    if a1 > 0 and alpha > 0:
-        if alpha > a1:
-            difference = alpha - a1
-        else:
-            difference = a1 - alpha
-
-    elif a1 < 0 and alpha < 0:
-        if alpha > a1:
-            difference = alpha - a1
-        else:
-            difference = -a1 + alpha
-
-    else:
-        difference = alpha - a1
+    difference = alpha - a1
+    # TODO ALL my signs here were wrong.
 
     print('difference is: ', difference)
     print('\n')
@@ -103,13 +100,13 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 
         # wrong orientation
         # ensures that cozmo rotates to face target
-        # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad
-        elif not well_oriented and difference > 0.087265:
-                angular = 1.5
+        # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad || 1 deg = 0.01745329252
+        elif not well_oriented and difference > 0.0035:
+                angular = 0.5
                 velocity = 0
 
-        elif not well_oriented and difference < -0.087265:
-                angular = -1.5
+        elif not well_oriented and difference < -0.0035:
+                angular = -0.5
                 velocity = 0
 
         else:

@@ -28,7 +28,7 @@ import time
 m = loadU08520Map()
 
 
-interval = 0.08
+interval = 0.1
 
 # current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)
 # current_pose = Frame2D.fromXYA(200, 500, 0)
@@ -51,7 +51,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	global target_pose
 
 	while not finished.is_set():
-		# TODO --- Rotation and move forward seems to be OK but precision is TERRIBLE
+		# TODO --- Rotation and move forward seems to be OK but precision is not great
 		# TODO --- Final rotation needs to be done now to complete linear approach
 		inv_current_pose = current_pose.inverse()
 		relative_target = inv_current_pose.mult(target_pose)
