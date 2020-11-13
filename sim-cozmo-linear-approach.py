@@ -2,9 +2,7 @@
 
 
 import asyncio
-
 import cozmo
-
 from frame2d import Frame2D 
 from map import CozmoMap, plotMap, loadU08520Map, Coord2D
 from matplotlib import pyplot as plt
@@ -22,28 +20,38 @@ import threading
 import time
 
 
-
-
 # this data structure represents the map
 m = loadU08520Map()
 
 
 interval = 0.1
 
-# current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)
-# current_pose = Frame2D.fromXYA(200, 400, 0)
-current_pose = Frame2D.fromXYA(500, 100, 0)
-x0 = current_pose.toXYA()[0]
-y0 = current_pose.toXYA()[1]
-a0 = current_pose.toXYA()[2]
+print('Choose initial position. (x, y, angle) \n')
+print(' x --> ')
+x0 = float(input())
+print('\n y --> ')
+y0 = float(input())
+print('\n angle --> ')
+a0 = float(input())
 
-# TODO allow the target to be chosen as console parameter
-# target_pose = Frame2D.fromXYA(100, 100, -3.1416/2)  # 3.1416
+current_pose = Frame2D.fromXYA(x0, y0, a0)
+
+# current_pose = Frame2D.fromXYA(100, 600, 0)
+# current_pose = Frame2D.fromXYA(200, 400, 0)
+# current_pose = Frame2D.fromXYA(500, 100, 0)
+
+print('Choose target position. (x, y, angle) \n')
+print(' x --> ')
+x1 = float(input())
+print('\n y --> ')
+y1 = float(input())
+print('\n angle --> ')
+a1 = float(input())
+
+target_pose = Frame2D.fromXYA(x1, y1, a1)
+# target_pose = Frame2D.fromXYA(400, 100, -3.1416/2)
 # target_pose = Frame2D.fromXYA(400, 100, 0)
-target_pose = Frame2D.fromXYA(100, 300, 0)
-x1 = target_pose.toXYA()[0]
-y1 = target_pose.toXYA()[1]
-a1 = target_pose.toXYA()[2]
+# target_pose = Frame2D.fromXYA(100, 300, 0)
 
 
 def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
@@ -52,11 +60,8 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 	while not finished.is_set():
 		# TODO --- COMPLETED
-		#inv_current_pose = current_pose.inverse()
-		#relative_target = inv_current_pose.mult(target_pose)
 		inv_current_pose = current_pose.inverse()
 		relative_target = inv_current_pose.mult(target_pose)
-
 
 		rel_tag = relative_target.toXYA()
 		x = rel_tag[0]
@@ -67,7 +72,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		print("relative_target"+str(relative_target), end="\r\n")
 		velocity = target_pose_to_velocity_linear(current_pose, relative_target)
 		print("velocity"+str(velocity), end="\r\n")
-		track_speed = velocity_to_track_speed(velocity[0],velocity[1])
+		track_speed = velocity_to_track_speed(velocity[0], velocity[1])
 		print("trackSpeedCommand"+str(track_speed), end="\r\n")
 		lspeed = simWorld.left_wheel_speed()
 		rspeed = simWorld.right_wheel_speed()
@@ -85,18 +90,16 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 				finished.set()
 
 
-
 def cozmo_program(simWorld: CozmoSimWorld):
 	finished = threading.Event()
 	print("Starting simulation. Press Q to exit", end="\r\n")
-	threading.Thread(target=runWorld, args=(simWorld,finished)).start()
-	threading.Thread(target=WaitForChar, args=(finished,'[Qq]')).start()
-	threading.Thread(target=runCozmoMainLoop, args=(simWorld,finished)).start()
+	threading.Thread(target=runWorld, args=(simWorld, finished)).start()
+	threading.Thread(target=WaitForChar, args=(finished, '[Qq]')).start()
+	threading.Thread(target=runCozmoMainLoop, args=(simWorld, finished)).start()
 	# running the plot loop in a thread is not thread-safe because matplotlib
 	# uses tkinter, which in turn has a threading quirk that makes it
 	# non-thread-safe outside the python main program.
 	# See https://stackoverflow.com/questions/14694408/runtimeerror-main-thread-is-not-in-main-loop
-    
 	runPlotLoop(m, simWorld, finished)
 
 
@@ -104,6 +107,3 @@ def cozmo_program(simWorld: CozmoSimWorld):
 simWorld = CozmoSimWorld(m, current_pose)
 
 cozmo_program(simWorld)
-
-		
-

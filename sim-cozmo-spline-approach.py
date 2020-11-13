@@ -2,9 +2,7 @@
 
 
 import asyncio
-
 import cozmo
-
 from frame2d import Frame2D
 from map import CozmoMap, plotMap, loadU08520Map, Coord2D
 from matplotlib import pyplot as plt
@@ -26,20 +24,33 @@ m = loadU08520Map()
 
 interval = 0.1
 
-# current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)
-# current_pose = Frame2D.fromXYA(200, 400, 0)
-current_pose = Frame2D.fromXYA(500, 100, 0)
-x0 = current_pose.toXYA()[0]
-y0 = current_pose.toXYA()[1]
-a0 = current_pose.toXYA()[2]
 
-# TODO allow the target to be chosen as console parameter
-# target_pose = Frame2D.fromXYA(100, 100, -3.1416/2)  # 3.1416
+print('Choose initial position. (x, y, angle) \n')
+print(' x --> ')
+x0 = float(input())
+print('\n y --> ')
+y0 = float(input())
+print('\n angle --> ')
+a0 = float(input())
+
+current_pose = Frame2D.fromXYA(x0, y0, a0)
+
+# current_pose = Frame2D.fromXYA(100, 600, 0)
+# current_pose = Frame2D.fromXYA(200, 400, 0)
+# current_pose = Frame2D.fromXYA(500, 100, 0)
+
+print('Choose target position. (x, y, angle) \n')
+print(' x --> ')
+x1 = float(input())
+print('\n y --> ')
+y1 = float(input())
+print('\n angle --> ')
+a1 = float(input())
+
+target_pose = Frame2D.fromXYA(x1, y1, a1)
+# target_pose = Frame2D.fromXYA(400, 100, -3.1416/2)
 # target_pose = Frame2D.fromXYA(400, 100, 0)
-target_pose = Frame2D.fromXYA(100, 300, 0)
-x1 = target_pose.toXYA()[0]
-y1 = target_pose.toXYA()[1]
-a1 = target_pose.toXYA()[2]
+# target_pose = Frame2D.fromXYA(100, 300, 0)
 
 
 def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
@@ -53,7 +64,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         rel_tag = relative_target.toXYA()
         x = rel_tag[0]
         y = rel_tag[1]
-        a = rel_tag[2]
+        # a = rel_tag[2]
         d = math.sqrt(x * x + y * y)  # distance between current position and target position
 
         print('distance = ', d)
@@ -76,6 +87,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         if d < 70:
             finished.set()
 
+
 def cozmo_program(simWorld: CozmoSimWorld):
     finished = threading.Event()
     print("Starting simulation. Press Q to exit", end="\r\n")
@@ -94,6 +106,3 @@ def cozmo_program(simWorld: CozmoSimWorld):
 simWorld = CozmoSimWorld(m, current_pose)
 
 cozmo_program(simWorld)
-
-
-
