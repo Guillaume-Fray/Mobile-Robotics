@@ -136,7 +136,7 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement by means of cubic spline interpolation 
 def target_pose_to_velocity_spline(relative_target: Frame2D):
-    arc_length = 1  # TODO --- Choose arc_length --- to be experimented further once function is fixed
+    arc_length = 0.5  # TODO --- arc length seems ok for now ---
     s = 30
 
     target_position = Frame2D.toXYA(relative_target)
@@ -144,9 +144,9 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
     y = target_position[1]
     a = target_position[2]
 
-    vy = 0  # TODO --- vy = final velocity's y component. Is it not = to 0 for small angular velocity values???
+    vy = relative_target.mat[1, 0]  # vy = final velocity's y component
     k = (2 * ((3 * y) - (s * vy))) / (s * s)  # k = curvature = radius of osculating circle
-    velocity = arc_length  # forward velocity
+    velocity = s  # forward velocity
     angular = arc_length * k  # angular velocity
 
     return [velocity, angular]

@@ -2,9 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="31624484-cd2b-4714-80e8-7cc0f59a1611" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cozmo_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/cozmo_interface.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/sim-cozmo-linear-approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/sim-cozmo-linear-approach.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/sim-cozmo-spline-approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/sim-cozmo-spline-approach.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -28,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="125" selection-start-line="125" selection-end-line="125" />
+            <state relative-caret-position="288">
+              <caret line="75" column="21" lean-forward="true" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
               <folding>
                 <element signature="e#24#51#0" expanded="true" />
               </folding>
@@ -40,11 +40,20 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/sim-cozmo-spline-approach.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="107">
+              <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="167">
-              <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
+            <state relative-caret-position="101">
+              <caret line="77" selection-start-line="77" selection-end-line="78" selection-end-column="15" />
               <folding>
                 <element signature="e#25#39#0" expanded="true" />
               </folding>
@@ -84,12 +93,12 @@
         <option value="$PROJECT_DIR$/cozmo-run-spline-approach.py" />
         <option value="$PROJECT_DIR$/run-cozmo-spline-approach.py" />
         <option value="$PROJECT_DIR$/run-cozmo-linear-approach.py" />
-        <option value="$PROJECT_DIR$/sim-cozmo-spline-approach.py" />
         <option value="$PROJECT_DIR$/sim-cozmo-odometry.py" />
         <option value="$PROJECT_DIR$/run-cozmo-odometry.py" />
         <option value="$PROJECT_DIR$/frame2d.py" />
-        <option value="$PROJECT_DIR$/cozmo_interface.py" />
         <option value="$PROJECT_DIR$/sim-cozmo-linear-approach.py" />
+        <option value="$PROJECT_DIR$/sim-cozmo-spline-approach.py" />
+        <option value="$PROJECT_DIR$/cozmo_interface.py" />
       </list>
     </option>
   </component>
@@ -141,7 +150,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.sim-cozmo-linear-approach">
+  <component name="RunManager" selected="Python.sim-cozmo-spline-approach">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Cozmo" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -231,9 +240,6 @@
       <module name="Cozmo" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
-      <envs>
-        <env name="PYTHONUNBUFFERED" value="1" />
-      </envs>
       <option name="SDK_HOME" value="" />
       <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
       <option name="IS_MODULE_SDK" value="true" />
@@ -273,9 +279,9 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.sim-cozmo-spline-approach" />
         <item itemvalue="Python.sim-cozmo-linear-approach" />
         <item itemvalue="Python.sim-cozmo-odometry" />
-        <item itemvalue="Python.sim-cozmo-spline-approach" />
         <item itemvalue="Python.map" />
         <item itemvalue="Python.sim-mcl" />
       </list>
@@ -306,12 +312,12 @@
       <workItem from="1604572383994" duration="1899000" />
       <workItem from="1604874790838" duration="43112000" />
       <workItem from="1605085181735" duration="2080000" />
-      <workItem from="1605269413362" duration="2508000" />
+      <workItem from="1605269413362" duration="6219000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="167947000" />
+    <option name="totallyTimeSpent" value="171658000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -341,13 +347,13 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32857144" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.55306125" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.42040816" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" sideWeight="0.8630137" visible="true" weight="0.26923078" />
+      <window_info anchor="right" id="SciView" order="3" sideWeight="0.8644366" visible="true" weight="0.26923078" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" order="5" sideWeight="0.1369863" side_tool="true" visible="true" weight="0.26923078" />
+      <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" order="5" sideWeight="0.13556337" side_tool="true" visible="true" weight="0.26923078" />
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -427,16 +433,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/compute-odom-vis.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="95" column="38" lean-forward="true" selection-start-line="95" selection-start-column="38" selection-end-line="95" selection-end-column="38" />
-          <folding>
-            <element signature="e#98#116#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run-cozmo-spline-approach.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -491,16 +487,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sim-cozmo-spline-approach.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="52" column="17" selection-start-line="52" selection-start-column="17" selection-end-line="52" selection-end-column="45" />
-          <folding>
-            <element signature="e#25#39#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/sim-template-idle.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="21">
@@ -541,16 +527,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/frame2d.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="383">
-          <caret line="66" column="30" lean-forward="true" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="40" />
-          <folding>
-            <element signature="e#75#112#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/run-cozmo-linear-approach.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -561,22 +537,49 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
+    <entry file="file://$PROJECT_DIR$/frame2d.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="125" selection-start-line="125" selection-end-line="125" />
+        <state relative-caret-position="990">
+          <caret line="66" column="30" lean-forward="true" selection-start-line="66" selection-start-column="30" selection-end-line="66" selection-end-column="40" />
           <folding>
-            <element signature="e#24#51#0" expanded="true" />
+            <element signature="e#75#112#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/compute-odom-vis.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1425">
+          <caret line="95" column="38" selection-start-line="95" selection-start-column="38" selection-end-line="95" selection-end-column="38" />
+          <folding>
+            <element signature="e#98#116#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
+        <state relative-caret-position="101">
+          <caret line="77" selection-start-line="77" selection-end-line="78" selection-end-column="15" />
           <folding>
             <element signature="e#25#39#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/sim-cozmo-spline-approach.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="12" column="30" selection-start-line="12" selection-start-column="30" selection-end-line="12" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="288">
+          <caret line="75" column="21" lean-forward="true" selection-start-line="75" selection-start-column="21" selection-end-line="75" selection-end-column="21" />
+          <folding>
+            <element signature="e#24#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
