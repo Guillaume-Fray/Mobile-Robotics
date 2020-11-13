@@ -28,11 +28,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="397">
-              <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
+            <state relative-caret-position="198">
+              <caret line="125" selection-start-line="125" selection-end-line="125" />
               <folding>
                 <element signature="e#24#51#0" expanded="true" />
               </folding>
@@ -40,11 +40,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-317">
-              <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+            <state relative-caret-position="167">
+              <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
               <folding>
                 <element signature="e#25#39#0" expanded="true" />
               </folding>
@@ -96,7 +96,7 @@
   <component name="ProjectFrameBounds" fullScreen="true">
     <option name="y" value="23" />
     <option name="width" value="1680" />
-    <option name="height" value="965" />
+    <option name="height" value="973" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -104,7 +104,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -116,6 +115,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -305,12 +305,13 @@
       <workItem from="1603981413945" duration="16065000" />
       <workItem from="1604572383994" duration="1899000" />
       <workItem from="1604874790838" duration="43112000" />
-      <workItem from="1605085181735" duration="1809000" />
+      <workItem from="1605085181735" duration="2080000" />
+      <workItem from="1605269413362" duration="2508000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="165168000" />
+    <option name="totallyTimeSpent" value="167947000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -325,7 +326,7 @@
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923897" visible="true" weight="0.17399268" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49923897" visible="true" weight="0.17582418" />
       <window_info id="Structure" order="1" sideWeight="0.50076103" side_tool="true" weight="0.16117217" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -340,13 +341,13 @@
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="bottom" id="Terminal" order="11" weight="0.32857144" />
-      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.4030612" />
+      <window_info active="true" anchor="bottom" id="Python Console" order="12" visible="true" weight="0.55306125" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-      <window_info anchor="right" id="SciView" order="3" sideWeight="0.8666667" visible="true" weight="0.26923078" />
+      <window_info anchor="right" id="SciView" order="3" sideWeight="0.8630137" visible="true" weight="0.26923078" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" order="5" sideWeight="0.13333334" side_tool="true" visible="true" weight="0.26923078" />
+      <window_info anchor="right" x="0" y="0" width="370" height="850" id="Documentation" order="5" sideWeight="0.1369863" side_tool="true" visible="true" weight="0.26923078" />
     </layout>
     <layout-to-restore>
       <window_info id="Favorites" order="0" side_tool="true" />
@@ -560,22 +561,22 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
+    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-317">
-          <caret line="57" lean-forward="true" selection-start-line="57" selection-end-line="57" />
+        <state relative-caret-position="198">
+          <caret line="125" selection-start-line="125" selection-end-line="125" />
           <folding>
-            <element signature="e#25#39#0" expanded="true" />
+            <element signature="e#24#51#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
+    <entry file="file://$PROJECT_DIR$/sim-cozmo-linear-approach.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="117" column="9" lean-forward="true" selection-start-line="117" selection-start-column="9" selection-end-line="117" selection-end-column="9" />
+        <state relative-caret-position="167">
+          <caret line="53" column="28" selection-start-line="53" selection-start-column="28" selection-end-line="53" selection-end-column="28" />
           <folding>
-            <element signature="e#24#51#0" expanded="true" />
+            <element signature="e#25#39#0" expanded="true" />
           </folding>
         </state>
       </provider>

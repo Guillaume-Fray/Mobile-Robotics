@@ -56,6 +56,7 @@ alpha = 0
 # If on target: turn to desired orientation
 def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):
     global well_oriented
+    global final_orientation
     global alpha_set
     global alpha
     s = 60
@@ -72,7 +73,6 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     cur_position = Frame2D.toXYA(current_pose)
     a1 = cur_position[2]
 
-    # TODO alpha should not vary
     if not alpha_set:
         alpha = math.atan2(y2, x2)
         alpha_set = True
@@ -85,7 +85,6 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 
     # difference used to get cozmo to rotate in the adequate direction (left or right) to face target
     difference = alpha - a1
-    # TODO ALL my signs here were wrong.
 
     print('difference is: ', difference)
     print('\n')
@@ -116,8 +115,20 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 
     # on target
     else:
-        velocity = 0
-        angular = 0
+        # wrong orientation
+        if not final_orientation and a2-a1 > 0.0035:
+            angular = 0.5
+            velocity = 0
+
+        elif not final_orientation and a2-a1 < -0.0035:
+                angular = -0.5
+                velocity = 0
+
+        # right orientation
+        else:
+            final_orientation = True
+            angular = 0
+            velocity = 0
 
     return [velocity, angular]
 

@@ -31,16 +31,16 @@ m = loadU08520Map()
 interval = 0.1
 
 # current_pose = Frame2D.fromXYA(500, 300, -3.1416 / 2)
-# current_pose = Frame2D.fromXYA(200, 500, 0)
-current_pose = Frame2D.fromXYA(500, 100, 0)
+current_pose = Frame2D.fromXYA(200, 400, 0)
+# current_pose = Frame2D.fromXYA(500, 100, 0)
 x0 = current_pose.toXYA()[0]
 y0 = current_pose.toXYA()[1]
 a0 = current_pose.toXYA()[2]
 
 # TODO allow the target to be chosen as console parameter
 # target_pose = Frame2D.fromXYA(100, 100, -3.1416/2)  # 3.1416
-# target_pose = Frame2D.fromXYA(500, 200, 0)
-target_pose = Frame2D.fromXYA(100, 300, 0)
+target_pose = Frame2D.fromXYA(400, 100, 0)
+# target_pose = Frame2D.fromXYA(100, 300, 0)
 x1 = target_pose.toXYA()[0]
 y1 = target_pose.toXYA()[1]
 a1 = target_pose.toXYA()[2]
@@ -51,10 +51,12 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	global target_pose
 
 	while not finished.is_set():
-		# TODO --- Rotation and move forward seems to be OK but precision is not great
-		# TODO --- Final rotation needs to be done now to complete linear approach
+		# TODO --- COMPLETED
+		#inv_current_pose = current_pose.inverse()
+		#relative_target = inv_current_pose.mult(target_pose)
 		inv_current_pose = current_pose.inverse()
 		relative_target = inv_current_pose.mult(target_pose)
+
 
 		rel_tag = relative_target.toXYA()
 		x = rel_tag[0]
@@ -80,8 +82,9 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 		#if
 
-		if d < 70:  # and math.fabs(a) <= 0.15:
-			finished.set()
+		if d < 70:
+			if math.fabs(a) <= 0.15:
+				finished.set()
 
 
 
