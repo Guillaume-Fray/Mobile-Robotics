@@ -45,6 +45,7 @@ def velocity_to_track_speed(forward, angular):
 
 well_oriented = False  # global variable to stop cozmo from spinning on the spot once it is well orientated
 final_orientation = False  # global variable for cozmo to adjust its orientation once it's reached final position
+on_target = False
 alpha_set = False
 alpha = 0
 
@@ -57,6 +58,7 @@ alpha = 0
 def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame2D):
     global well_oriented
     global final_orientation
+    global on_target
     global alpha_set
     global alpha
     s = 60
@@ -68,11 +70,10 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     d = math.sqrt(x2*x2 + y2*y2)  # distance between current position and target position
     print('distance = ', d)
 
-    # cos_a = relative_target.mat[0, 0]
-
     cur_position = Frame2D.toXYA(current_pose)
     a1 = cur_position[2]
 
+    # alpha is the angle between initial position and target position
     if not alpha_set:
         alpha = math.atan2(y2, x2)
         alpha_set = True
@@ -83,6 +84,8 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     print('alpha = ', alpha)
     print('\n')
 
+    # TODO if cozmo's initial position is turning its back to the target, x and y get inverted,
+    # TODO which means that alpha becomes wrong and cozmo goes into the wrong direction!!
     # difference used to get cozmo to rotate in the adequate direction (left or right) to face target
     difference = alpha - a1
 
@@ -90,7 +93,7 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     print('\n')
 
     # target far away
-    if d > 70:
+    if d > 70 and not on_target:
 
         # facing target
         if well_oriented:
@@ -100,11 +103,11 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
         # wrong orientation
         # ensures that cozmo rotates to face target
         # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad || 1 deg = 0.01745329252
-        elif not well_oriented and difference > 0.0035:
+        elif not well_oriented and difference > 0.035:
                 angular = 0.5
                 velocity = 0
 
-        elif not well_oriented and difference < -0.0035:
+        elif not well_oriented and difference < -0.035:
                 angular = -0.5
                 velocity = 0
 
@@ -115,12 +118,13 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
 
     # on target
     else:
+        on_target = True
         # wrong orientation
-        if not final_orientation and a2-a1 > 0.0035:
+        if not final_orientation and a2 > 0.035:
             angular = 0.5
             velocity = 0
 
-        elif not final_orientation and a2-a1 < -0.0035:
+        elif not final_orientation and a2 < -0.035:
                 angular = -0.5
                 velocity = 0
 

@@ -77,7 +77,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         rspeed = simWorld.right_wheel_speed()
         print("track_speed" + str([lspeed, rspeed]), end="\r\n")
         delta = track_speed_to_pose_change(lspeed, rspeed, interval)
-        current_pose = Frame2D.mult(current_pose, delta)
+        current_pose = delta.mult(current_pose)
         print("current_pose" + str(current_pose), end="\r\n")
         print("target_pose" + str(target_pose), end="\r\n")
         print()

@@ -8,7 +8,7 @@ from map import CozmoMap, plotMap, loadU08520Map, Coord2D
 from matplotlib import pyplot as plt
 from cozmo_interface import track_speed_to_pose_change
 from cozmo_interface import wheelDistance, target_pose_to_velocity_linear, velocity_to_track_speed,\
-	track_speed_to_pose_change
+	track_speed_to_pose_change, on_target
 from mcl_tools import *
 from cozmo_sim_world import *
 from cozmo_sim_world_plot import *
@@ -57,6 +57,7 @@ target_pose = Frame2D.fromXYA(x1, y1, a1)
 def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	global current_pose
 	global target_pose
+	global on_target
 
 	while not finished.is_set():
 		# TODO --- COMPLETED
@@ -78,15 +79,17 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		rspeed = simWorld.right_wheel_speed()
 		print("track_speed"+str([lspeed, rspeed]), end="\r\n")
 		delta = track_speed_to_pose_change(lspeed, rspeed, interval)
-		current_pose = current_pose.mult(delta)
+		current_pose = delta.mult(current_pose)
 		print("current_pose"+str(current_pose), end="\r\n")
 		print("target_pose" + str(target_pose), end="\r\n")
 		print()
 		simWorld.drive_wheel_motors(track_speed[0], track_speed[1])
 		time.sleep(interval)
 
-		if d < 70:
-			if math.fabs(a) <= 0.15:
+		if d < 70 or on_target:
+			on_target = True
+			# 0.035 = 2 degrees (+/-)
+			if math.fabs(a) <= 0.035:
 				finished.set()
 
 
