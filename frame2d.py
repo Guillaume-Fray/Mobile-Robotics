@@ -14,27 +14,27 @@ import math
 class Frame2D:
 
     def __init__(self):
-        self.mat = np.matrix([[1., 0.,0.], [0., 1.,0.], [0., 0.,1.]])
+        self.mat = np.matrix([[1., 0., 0.], [0., 1., 0.], [0., 0., 1.]])
 
     @classmethod
-    def fromMat(cls,m: np.matrix):
+    def fromMat(cls, m: np.matrix):
         f = cls()
         f.mat = m
         return f
     
     @classmethod
-    def fromPose(cls,pose: Pose):
+    def fromPose(cls, pose: Pose):
         f = cls()
         angle = pose.rotation.angle_z.radians
-        f.mat = np.matrix([[math.cos(angle), -math.sin(angle), pose.position.x], [math.sin(angle), math.cos(angle), pose.position.y], [0., 0.,1.]])
+        f.mat = np.matrix([[math.cos(angle), -math.sin(angle), pose.position.x], [math.sin(angle), math.cos(angle), pose.position.y], [0., 0., 1.]])
         return f
     
     # create a frame from x/y offset and angle a
     @classmethod
-    def fromXYA(cls,x,y=None,a=None):
+    def fromXYA(cls, x, y=None, a=None):
         if y is not None:
             f = cls()
-            f.mat = np.matrix([[math.cos(a), -math.sin(a), x], [math.sin(a), math.cos(a), y], [0., 0.,1.]])
+            f.mat = np.matrix([[math.cos(a), -math.sin(a), x], [math.sin(a), math.cos(a), y], [0., 0., 1.]])
             return f
         else:
             f = cls()
@@ -52,9 +52,9 @@ class Frame2D:
         return Frame2D.fromMat(np.linalg.inv(self.mat))
 
     # Coordinate frame concatenation by means of matrix product
-    def mult(self,other):
+    def mult(self, other):
         f = Frame2D()
-        f.mat = np.matmul(self.mat,other.mat)
+        f.mat = np.matmul(self.mat, other.mat)
         return f
 
     def x(self):
@@ -64,5 +64,5 @@ class Frame2D:
         return self.mat[1, 2]
 
     def angle(self):
-        return math.atan2(self.mat[1, 0], self.mat[0, 0])
-
+        #return math.atan2(self.mat[1, 0], self.mat[0, 0])
+        return math.acos(self.mat[0, 0])

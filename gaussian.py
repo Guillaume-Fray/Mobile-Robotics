@@ -19,9 +19,9 @@ class Gaussian:
 	# Estimate empirical Gaussian from data (stored in rows of a matrix)
 	@classmethod
 	def fromData(cls,rowData: np.matrix):
-		m = np.mean(rowData,axis=0)
-		if np.size(rowData,0) > 1:
-			v = np.cov(rowData,rowvar=False)
+		m = np.mean(rowData, axis=0)
+		if np.size(rowData, 0) > 1:
+			v = np.cov(rowData, rowvar=False)
 		else:
 			v = np.zeros([np.size(rowData,1),np.size(rowData,1)])
 		f = cls(m,v)

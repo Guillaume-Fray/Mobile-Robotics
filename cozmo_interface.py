@@ -24,30 +24,26 @@ def track_speed_to_pose_change(left, right, time):
         r = ((left + right) * time) / (2 * theta)
         frame = Frame2D.fromXYA(r * math.sin(theta), -r * (math.cos(theta) - 1), theta)
 
-    # createStraightTrackSpeeds()
     return frame
 
 
 # Differential inverse kinematics: compute left/right track speed from desired angular and forward velocity
 def velocity_to_track_speed(forward, angular):
-    # when cozmo goes straight
-    if angular == 0:
-        left = forward
-        right = forward
-
-    # when cozmo turns
-    else:
-        left = forward - ((angular * wheelDistance) / 2)
-        right = forward + ((angular * wheelDistance) / 2)
+    left = forward - ((angular * wheelDistance) / 2)
+    right = forward + ((angular * wheelDistance) / 2)
 
     return [left, right]
 
 
 well_oriented = False  # global variable to stop cozmo from spinning on the spot once it is well orientated
 final_orientation = False  # global variable for cozmo to adjust its orientation once it's reached final position
-on_target = False
-alpha_set = False
-alpha = 0
+on_target = False  # global variable for cozmo to stop when on target before rotating to final orientation
+alpha_set = False  # global variable to prevent alpha from changing due to noise
+alpha = 0  # angle between initial position and final position
+
+
+def get_on_target():
+    return on_target
 
 
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
@@ -61,7 +57,8 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     global on_target
     global alpha_set
     global alpha
-    s = 60
+    difference = 0
+    s = 40
 
     rel_target_position = Frame2D.toXYA(relative_target)
     x2 = rel_target_position[0]
@@ -79,15 +76,21 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
         alpha_set = True
     else:
         alpha = alpha
+
     print('a1 = ', a1)
     print('a2 = ', a2)
     print('alpha = ', alpha)
     print('\n')
 
     # TODO if cozmo's initial position is turning its back to the target, x and y get inverted,
-    # TODO which means that alpha becomes wrong and cozmo goes into the wrong direction!!
+    # TODO which means that alpha becomes wrong and cozmo goes in the wrong direction!!
+
+    # TODO anyway difference strategy not working. Needs a guard to avoid adding angles up in some cases
     # difference used to get cozmo to rotate in the adequate direction (left or right) to face target
-    difference = alpha - a1
+    if not well_oriented:
+        difference = alpha - a1
+    else:
+        difference = difference
 
     print('difference is: ', difference)
     print('\n')
@@ -95,24 +98,25 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     # target far away
     if d > 70 and not on_target:
 
-        # facing target
+        # facing target TODO you can remove this "if" later, the else is enough
         if well_oriented:
             velocity = s
             angular = 0
 
         # wrong orientation
         # ensures that cozmo rotates to face target
-        # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   3 degrees = 0.0523598776 rad || 1 deg = 0.01745329252
-        elif not well_oriented and difference > 0.035:
+        # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   2 degrees ~ 0.035 rad || 1 deg = 0.01745329252 rad
+        elif not well_oriented and alpha > 0.035:
                 angular = 0.5
                 velocity = 0
 
-        elif not well_oriented and difference < -0.035:
+        elif not well_oriented and alpha < -0.035:
                 angular = -0.5
                 velocity = 0
 
         else:
             well_oriented = True
+            alpha_set = True
             angular = 0
             velocity = s
 
@@ -135,6 +139,40 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
             velocity = 0
 
     return [velocity, angular]
+
+
+def linear(relative_target: Frame2D):
+    global well_oriented
+    global on_target
+    rel_tag = relative_target.toXYA()
+    x = rel_tag[0]
+    y = rel_tag[1]
+    a = rel_tag[2]
+
+    s = 40
+    d = math.sqrt(x*x + y*y)
+    beta = math.atan2(y, x)
+    print('distance = ', d)
+
+    if d > 70 and not on_target and not well_oriented:
+        if math.cos(beta) <= 0.035:
+            angular = 0.5
+            forward = 0
+        else:
+            well_oriented = True
+            angular = 0
+            forward = s
+
+    elif well_oriented:
+        angular = 0
+        forward = s
+
+    else:
+        on_target = True
+        angular = 0
+        forward = 0
+
+    return [forward, angular]
 
 
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
