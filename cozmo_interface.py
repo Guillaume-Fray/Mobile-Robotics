@@ -42,10 +42,6 @@ alpha_set = False  # global variable to prevent alpha from changing due to noise
 alpha = 0  # angle between initial position and final position
 
 
-def get_on_target():
-    return on_target
-
-
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement in a linear way
 # If far away and facing wrong direction: rotate to face target
@@ -82,10 +78,7 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     print('alpha = ', alpha)
     print('\n')
 
-    # TODO if cozmo's initial position is turning its back to the target, x and y get inverted,
-    # TODO which means that alpha becomes wrong and cozmo goes in the wrong direction!!
-
-    # TODO anyway difference strategy not working. Needs a guard to avoid adding angles up in some cases
+    # TODO if angle of initial position is not ~ 0, x and y are wrong
     # difference used to get cozmo to rotate in the adequate direction (left or right) to face target
     if not well_oriented:
         difference = alpha - a1
@@ -98,7 +91,7 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
     # target far away
     if d > 70 and not on_target:
 
-        # facing target TODO you can remove this "if" later, the else is enough
+        # facing target TODO you can remove this "if" once main issue has been fixed, the else is enough
         if well_oriented:
             velocity = s
             angular = 0
@@ -106,11 +99,11 @@ def target_pose_to_velocity_linear(current_pose: Frame2D, relative_target: Frame
         # wrong orientation
         # ensures that cozmo rotates to face target
         # 5 degrees = pi/180 * 5 = 0.087265 rad  ||   2 degrees ~ 0.035 rad || 1 deg = 0.01745329252 rad
-        elif not well_oriented and alpha > 0.035:
+        elif not well_oriented and difference > 0.035:
                 angular = 0.5
                 velocity = 0
 
-        elif not well_oriented and alpha < -0.035:
+        elif not well_oriented and difference < -0.035:
                 angular = -0.5
                 velocity = 0
 

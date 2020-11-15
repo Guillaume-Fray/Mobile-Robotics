@@ -8,7 +8,7 @@ from map import CozmoMap, plotMap, loadU08520Map, Coord2D
 from matplotlib import pyplot as plt
 from cozmo_interface import track_speed_to_pose_change
 from cozmo_interface import wheelDistance, target_pose_to_velocity_linear, velocity_to_track_speed,\
-	track_speed_to_pose_change, get_on_target, linear
+	track_speed_to_pose_change
 from mcl_tools import *
 from cozmo_sim_world import *
 from cozmo_sim_world_plot import *
