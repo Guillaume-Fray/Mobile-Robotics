@@ -66,7 +66,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		lspeed = simWorld.left_wheel_speed()
 		rspeed = simWorld.right_wheel_speed()
 		delta = track_speed_to_pose_change(lspeed, rspeed, interval)
-		current_pose = delta.mult(current_pose)
+		current_pose = current_pose.mult(delta)
 
 		simWorld.drive_wheel_motors(track_speed[0], track_speed[1])
 		time.sleep(interval)

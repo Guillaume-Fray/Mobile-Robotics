@@ -52,7 +52,7 @@ def cozmo_drive_to_target(robot: cozmo.robot.Robot):
         rspeed = robot.right_wheel_speed.speed_mmps
         print("track_speed"+str([lspeed, rspeed]))
         delta = track_speed_to_pose_change(lspeed, rspeed, interval)
-        current_pose = delta.mult(current_pose)
+        current_pose = current_pose.mult(delta)
         print("currentPose" + str(current_pose))
         print()
         robot.drive_wheel_motors(l_wheel_speed=track_speed[0], r_wheel_speed=track_speed[1])
