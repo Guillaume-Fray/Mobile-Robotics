@@ -61,7 +61,6 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	d = 0
 
 	while not finished.is_set():
-		# TODO --- COMPLETED
 		inv_current_pose = current_pose.inverse()
 		relative_target = inv_current_pose.mult(target_pose)
 
@@ -77,7 +76,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		else:
 			d = d
 
-		velocity = target_pose_to_velocity_linear(current_pose, relative_target)
+		velocity = target_pose_to_velocity_linear(relative_target)
 		track_speed = velocity_to_track_speed(velocity[0], velocity[1])
 		lspeed = simWorld.left_wheel_speed()
 		rspeed = simWorld.right_wheel_speed()
@@ -99,7 +98,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 			on_target = True
 			# 0.035 = 2 degrees (+/-)
 			print('relative angle a = ', a)
-		if on_target and math.fabs(a) <= 0.035:
+		if on_target and math.fabs(a) <= 0.007:
 			finished.set()
 
 

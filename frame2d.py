@@ -64,5 +64,4 @@ class Frame2D:
         return self.mat[1, 2]
 
     def angle(self):
-        #return math.atan2(self.mat[1, 0], self.mat[0, 0])
-        return math.acos(self.mat[0, 0])
+        return math.atan2(self.mat[1, 0], self.mat[0, 0])

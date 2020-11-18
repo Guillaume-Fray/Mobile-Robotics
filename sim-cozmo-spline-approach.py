@@ -56,6 +56,7 @@ target_pose = Frame2D.fromXYA(x1, y1, a1)
 def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
     global current_pose
     global target_pose
+    # TODO only need to fix final orientation angle
 
     while not finished.is_set():
         inv_current_pose = current_pose.inverse()
@@ -64,10 +65,10 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         rel_tag = relative_target.toXYA()
         x = rel_tag[0]
         y = rel_tag[1]
-        # a = rel_tag[2]
         d = math.sqrt(x * x + y * y)  # distance between current position and target position
 
         print('distance = ', d)
+        print()
         print("relative_target" + str(relative_target), end="\r\n")
         velocity = target_pose_to_velocity_spline(relative_target)
         print("velocity" + str(velocity), end="\r\n")
