@@ -13,11 +13,9 @@ import math
 import numpy as np
 
 
-
-
 async def cozmo_program(robot: cozmo.robot.Robot):
 	# load map and create plot
-	m=loadU08520Map()
+	m = loadU08520Map()
 	plt.ion()
 	plt.show()
 	fig = plt.figure(figsize=(8, 8))
@@ -89,8 +87,8 @@ async def cozmo_program(robot: cozmo.robot.Robot):
 				relativePose = robotPose.inverse().mult(cubePose)
 				print("   relative pose (2D): " + str(relativePose))
 				visible = True
-			cubeVisibility[cubeID] =  visible
-			cubeRelativeFrames[cubeID] =  relativePose
+			cubeVisibility[cubeID] = visible
+			cubeRelativeFrames[cubeID] = relativePose
 
 		# compute position beliefs over grid (and store future visualization colors in gridCs)
 		index = 0
@@ -112,7 +110,6 @@ async def cozmo_program(robot: cozmo.robot.Robot):
 						maxP = p
 				gridCs[index] = (1-maxP, 1-maxP, 1-maxP)
 				index = index+1
-		
 
 		# update position belief plot	
 		pop.set_facecolor(gridCs)
@@ -120,7 +117,6 @@ async def cozmo_program(robot: cozmo.robot.Robot):
 		plt.pause(0.001)
 		
 		await asyncio.sleep(1)
-
 
 
 cozmo.robot.Robot.drive_off_charger_on_connect = False
