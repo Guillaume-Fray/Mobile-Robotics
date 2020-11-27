@@ -74,8 +74,8 @@ trackSpeeds = createStraightTrackSpeeds()
 
 
 # Save and load file
-np.save("trackSpeeds2", trackSpeeds)
-speeds = np.load("trackSpeeds2.npy")
+np.save("trackSpeeds4", trackSpeeds)
+# speeds = np.load("trackSpeeds555.npy")
 
 
 # Setup Noise model 
