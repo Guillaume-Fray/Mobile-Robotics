@@ -68,14 +68,14 @@ def createTurningTrackSpeeds():
 
 # create track speed data
 trackSpeeds = createStraightTrackSpeeds()
-# trackSpeeds = createCurvyTrackSpeeds()
-# trackSpeeds = createRectangularTrackSpeeds()
-# trackSpeeds = createTurningTrackSpeeds()
+# track_speeds = createCurvyTrackSpeeds()
+# track_speeds = createRectangularTrackSpeeds()
+# track_speeds = createTurningTrackSpeeds()
 
 
 # Save and load file
-np.save("trackSpeeds4", trackSpeeds)
-# speeds = np.load("trackSpeeds555.npy")
+np.save("track_speeds", trackSpeeds)
+# speeds = np.load("track_speeds.npy")
 
 
 # Setup Noise model 

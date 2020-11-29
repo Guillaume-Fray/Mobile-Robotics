@@ -32,7 +32,6 @@ def cozmo_update_position(robot: cozmo.robot.Robot):
         rspeed = robot.right_wheel_speed.speed_mmps
         delta = track_speed_to_pose_change(lspeed,rspeed,interval)
         print(lspeed, " ", rspeed, " ", current_pose, " ", delta)
-        # TODO -- done? (just one line?)
         current_pose = Frame2D.mult(current_pose, delta)
         time.sleep(interval)
 

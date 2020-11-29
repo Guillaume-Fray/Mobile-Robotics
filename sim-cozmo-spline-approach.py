@@ -62,9 +62,9 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         inv_current_pose = current_pose.inverse()
         relative_target = inv_current_pose.mult(target_pose)
 
-        rel_tag = relative_target.toXYA()
-        x = rel_tag[0]
-        y = rel_tag[1]
+        rel_targ = relative_target.toXYA()
+        x = rel_targ[0]
+        y = rel_targ[1]
         d = math.sqrt(x * x + y * y)  # distance between current position and target position
 
         print('distance = ', d)
@@ -85,7 +85,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         simWorld.drive_wheel_motors(track_speed[0], track_speed[1])
         time.sleep(interval)
 
-        if d < 70:
+        if d < 50:
             finished.set()
 
 

@@ -7,9 +7,9 @@ import numpy as np
 wheelDistance = 81  # or 82
 
 # TODO find sensible noise amplitudes for motor model
-cozmoOdomNoiseX = 0.0001
-cozmoOdomNoiseY = 0.0001
-cozmoOdomNoiseTheta = 0.0001
+cozmoOdomNoiseX = 0.2
+cozmoOdomNoiseY = 0.05
+cozmoOdomNoiseTheta = 0.000001
 
 
 # Forward kinematics: compute coordinate frame update as Frame2D from left/right track speed and time of movement
@@ -104,15 +104,16 @@ def target_pose_to_velocity_linear(relative_target: Frame2D):
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement by means of cubic spline interpolation 
 def target_pose_to_velocity_spline(relative_target: Frame2D):
-    arc_length = 0.5  # TODO --- arc length seems ok for now ---
-    s = 30
+    arc_length = 20  # TODO --- arc length seems ok for now ---
+    s = 250
 
     target_position = Frame2D.toXYA(relative_target)
+    x = target_position[0]
     y = target_position[1]
 
     vy = relative_target.mat[1, 0]  # vy = final velocity's y component
     k = (2 * ((3 * y) - (s * vy))) / (s * s)  # k = curvature = radius of osculating circle
-    velocity = s  # forward velocity
+    velocity = arc_length  # forward velocity
     angular = arc_length * k  # angular velocity
 
     return [velocity, angular]
