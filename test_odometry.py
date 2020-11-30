@@ -57,13 +57,13 @@ def create_square_track_speeds():
 
 
 # - 1 -
-track_speeds = create_square_track_speeds()
-# track_speeds = create_straight_track_speeds()
+# track_speeds = create_square_track_speeds()
+track_speeds = create_straight_track_speeds()
 
 # - 2 -
 # Save and load file
-np.save("track_speed_square1", track_speeds)
-# np.save("track_speed_straight2", track_speeds)
+# np.save("track_speed_square10", track_speeds)
+np.save("track_speed_straight3", track_speeds)
 
 
 # Setup Noise model
@@ -116,12 +116,12 @@ plt.scatter(poseVecs[:, len(track_speeds) - 1, 0], poseVecs[:, len(track_speeds)
 
 # - 3 -
 # Straight
-# plt.xlim(-100, 600)
-# plt.ylim(-200, 200)
+plt.xlim(-100, 600)
+plt.ylim(-200, 200)
 
 # Square
-plt.xlim(-200, 450)
-plt.ylim(-450, 150)
+# plt.xlim(-200, 450)
+# plt.ylim(-450, 150)
 
 plt.show()
 
@@ -136,8 +136,8 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		print("Original Position: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
 
 		# - 4 -
-		speeds = np.load("track_speed_square1.npy")
-		# speeds = np.load("track_speed_straight2.npy")
+		# speeds = np.load("track_speed_square10.npy")
+		speeds = np.load("track_speed_straight3.npy")
 		for i in range(0, len(speeds)):
 			print()
 			print("Speeds", i, ":  ", speeds[i, 0], " ", speeds[i, 1])
@@ -154,8 +154,8 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 interval = 0.1
 
 # - 5 -
-current_pose = Frame2D.fromXYA(100, 500, 3.1416 / 2)
-# current_pose = Frame2D.fromXYA(200, 100, 3.1416 / 2)
+# current_pose = Frame2D.fromXYA(100, 500, 3.1416 / 2)
+current_pose = Frame2D.fromXYA(200, 100, 3.1416 / 2)
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):

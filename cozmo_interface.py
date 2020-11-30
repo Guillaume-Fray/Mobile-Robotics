@@ -123,4 +123,13 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
 # Compute /probability/ of cube being (i) visible AND being detected at a specific
 # measure position (relative to robot frame)
 def cube_sensor_model(true_cube_position, visible, measured_position):
+    # proba_cliff = 0
+    # z = proba_cliff
+
+    # detect_proba =
+    # localis_accuracy =
+    # proba_cube = detect_proba*localis_accuracy
+
+    # z = z*proba_cube
+
     return 1.0

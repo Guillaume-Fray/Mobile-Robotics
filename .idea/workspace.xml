@@ -3,16 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="31624484-cd2b-4714-80e8-7cc0f59a1611" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/compute_odom_vis.py" beforeDir="false" afterPath="$PROJECT_DIR$/compute_odom_vis.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cozmo_interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/cozmo_interface.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/proba_motion_test.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_cube_detection.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/run-cozmo-odometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/run-cozmo-odometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/sim-cozmo-spline-approach.py" beforeDir="false" afterPath="$PROJECT_DIR$/sim-cozmo-spline-approach.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test_odometry.py" beforeDir="false" afterPath="$PROJECT_DIR$/test_odometry.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/trackSpeeds.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/trackSpeeds2.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/trackSpeeds4.npy" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/trackSpeeds999.npy" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -43,8 +35,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1298">
-              <caret line="8" column="53" lean-forward="true" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
+            <state relative-caret-position="1875">
+              <caret line="125" column="6" selection-start-line="125" selection-start-column="6" selection-end-line="125" selection-end-column="6" />
               <folding>
                 <element signature="e#24#51#0" expanded="true" />
               </folding>
@@ -52,11 +44,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/test_odometry.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="120">
-              <caret line="150" selection-start-line="150" selection-end-line="150" selection-end-column="22" />
+            <state relative-caret-position="354">
+              <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
               <folding>
                 <element signature="e#98#116#0" expanded="true" />
               </folding>
@@ -64,25 +56,13 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test_cube_detection.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="15">
               <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
               <folding>
                 <element signature="e#2#56#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cozmo_sim_world.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="149" column="75" selection-start-line="149" selection-start-column="75" selection-end-line="149" selection-end-column="75" />
-              <folding>
-                <element signature="e#1#13#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -138,11 +118,11 @@
         <option value="$PROJECT_DIR$/run-cozmo-odometry.py" />
         <option value="$PROJECT_DIR$/sim-cozmo-spline-approach.py" />
         <option value="$PROJECT_DIR$/compute_odom_vis.py" />
-        <option value="$PROJECT_DIR$/test_odometry.py" />
-        <option value="$PROJECT_DIR$/cozmo_interface.py" />
         <option value="$PROJECT_DIR$/Testing Material/test_cube_detection.py" />
         <option value="$PROJECT_DIR$/cozmo_sim_world.py" />
         <option value="$PROJECT_DIR$/test_cube_detection.py" />
+        <option value="$PROJECT_DIR$/cozmo_interface.py" />
+        <option value="$PROJECT_DIR$/test_odometry.py" />
       </list>
     </option>
   </component>
@@ -203,7 +183,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.test_cube_detection">
+  <component name="RunManager" selected="Python.test_odometry">
     <configuration default="true" type="PythonConfigurationType" factoryName="Python">
       <module name="Cozmo" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -345,8 +325,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.test_cube_detection" />
         <item itemvalue="Python.test_odometry" />
+        <item itemvalue="Python.test_cube_detection" />
         <item itemvalue="Python.sim-cozmo-spline-approach" />
         <item itemvalue="Python.compute-odom-vis" />
         <item itemvalue="Python.sim-mcl" />
@@ -387,12 +367,12 @@
       <workItem from="1605872866908" duration="3278000" />
       <workItem from="1606395125657" duration="20049000" />
       <workItem from="1606424262600" duration="2000" />
-      <workItem from="1606424282856" duration="32348000" />
+      <workItem from="1606424282856" duration="36247000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="280709000" />
+    <option name="totallyTimeSpent" value="284608000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -405,7 +385,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" sideWeight="0.49693877" visible="true" weight="0.24603175" />
       <window_info id="Structure" order="1" sideWeight="0.50306123" side_tool="true" weight="0.23992674" />
@@ -652,32 +631,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1298">
-          <caret line="8" column="53" lean-forward="true" selection-start-line="8" selection-start-column="53" selection-end-line="8" selection-end-column="53" />
-          <folding>
-            <element signature="e#24#51#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/map.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-2558">
           <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
             <element signature="e#96#114#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test_odometry.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="120">
-          <caret line="150" selection-start-line="150" selection-end-line="150" selection-end-column="22" />
-          <folding>
-            <element signature="e#98#116#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -692,12 +651,32 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cozmo_interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1875">
+          <caret line="125" column="6" selection-start-line="125" selection-start-column="6" selection-end-line="125" selection-end-column="6" />
+          <folding>
+            <element signature="e#24#51#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/test_cube_detection.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="15">
           <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
           <folding>
             <element signature="e#2#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test_odometry.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="354">
+          <caret line="65" column="30" selection-start-line="65" selection-start-column="30" selection-end-line="65" selection-end-column="30" />
+          <folding>
+            <element signature="e#98#116#0" expanded="true" />
           </folding>
         </state>
       </provider>
