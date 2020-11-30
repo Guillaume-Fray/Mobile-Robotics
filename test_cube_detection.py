@@ -35,7 +35,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 
 interval = 0.1
-current_pose = Frame2D.fromXYA(100, 200, 0)  # 3.1416 / 4
+current_pose = Frame2D.fromXYA(100, 200, 3.1416 / 4)  # 3.1416 / 4
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):

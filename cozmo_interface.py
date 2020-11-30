@@ -7,9 +7,9 @@ import numpy as np
 wheelDistance = 81  # or 82
 
 # TODO find sensible noise amplitudes for motor model
-cozmoOdomNoiseX = 0.2
-cozmoOdomNoiseY = 0.05
-cozmoOdomNoiseTheta = 0.000001
+cozmoOdomNoiseX = 10
+cozmoOdomNoiseY = 10
+cozmoOdomNoiseTheta = 0.0000001
 
 
 # Forward kinematics: compute coordinate frame update as Frame2D from left/right track speed and time of movement

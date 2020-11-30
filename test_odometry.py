@@ -19,17 +19,6 @@ from terminal_reader import WaitForChar
 np.random.seed(seed=1)
 
 
-# Cozmo drives 50 cm forward
-def create_straight_track_speeds():
-	tracks_speeds = []
-	for x in range(0, 255):
-		tracks_speeds.append([20, 20])
-	for x in range(0, 260):
-		tracks_speeds.append([-20, -20])
-
-	return np.array(tracks_speeds)
-
-
 # Cozmo drives in a 30 cm wide square
 def create_square_track_speeds():
 	tracks_speeds = []
@@ -56,15 +45,64 @@ def create_square_track_speeds():
 	return np.array(tracks_speeds)
 
 
+# Cozmo drives 50 cm forward
+def create_straight_track_speeds():
+	tracks_speeds = []
+	for x in range(0, 255):
+		tracks_speeds.append([20, 20])
+	for x in range(0, 260):
+		tracks_speeds.append([-20, -20])
+
+	return np.array(tracks_speeds)
+
+
+# Cozmo spins on the spot
+def create_spin_track_speeds():
+	tracks_speeds = []
+	for x in range(0, 300):
+		tracks_speeds.append([-60, 60])
+
+	return np.array(tracks_speeds)
+
+
+# Cozmo spins, moves forward, spins again, moves forward, turns left, moves forward ans spins.
+def create_complex_track_speeds():
+	tracks_speeds = []
+	for x in range(0, 90):
+		tracks_speeds.append([-30, 30])
+	for x in range(0, 100):
+		tracks_speeds.append([20, 20])
+
+	for x in range(0, 65):
+		tracks_speeds.append([-30, 30])
+	for x in range(0, 100):
+		tracks_speeds.append([20, 20])
+
+	for x in range(0, 60):
+		tracks_speeds.append([-8, 16])
+	for x in range(0, 85):
+		tracks_speeds.append([20, 20])
+
+	for x in range(0, 150):
+		tracks_speeds.append([-60, 60])
+
+	return np.array(tracks_speeds)
+
+
 # - 1 -
 # track_speeds = create_square_track_speeds()
-track_speeds = create_straight_track_speeds()
+# track_speeds = create_straight_track_speeds()
+# track_speeds = create_spin_track_speeds()
+track_speeds = create_complex_track_speeds()
+
 
 # - 2 -
 # Save and load file
 # np.save("track_speed_square10", track_speeds)
-np.save("track_speed_straight3", track_speeds)
-
+# np.save("track_speed_straight10", track_speeds)
+# np.save("track_speed_spin10", track_speeds)
+# np.save("track_speed_complex40", track_speeds)
+np.save("tests_to_adjust", track_speeds)
 
 # Setup Noise model
 zero3 = np.zeros([3])
@@ -115,13 +153,14 @@ plt.scatter(poseVecs[:, len(track_speeds) - 1, 0], poseVecs[:, len(track_speeds)
 
 
 # - 3 -
-# Straight
+# Straight, Complex
 plt.xlim(-100, 600)
 plt.ylim(-200, 200)
 
-# Square
+# Square, Spin
 # plt.xlim(-200, 450)
 # plt.ylim(-450, 150)
+
 
 plt.show()
 
@@ -136,8 +175,11 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		print("Original Position: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
 
 		# - 4 -
+		speeds = np.load("tests_to_adjust.npy")
 		# speeds = np.load("track_speed_square10.npy")
-		speeds = np.load("track_speed_straight3.npy")
+		# speeds = np.load("track_speed_straight10.npy")
+		# speeds = np.load("track_speed_spin10.npy")
+		# speeds = np.load("track_speed_complex40.npy")
 		for i in range(0, len(speeds)):
 			print()
 			print("Speeds", i, ":  ", speeds[i, 0], " ", speeds[i, 1])
@@ -155,7 +197,9 @@ interval = 0.1
 
 # - 5 -
 # current_pose = Frame2D.fromXYA(100, 500, 3.1416 / 2)
-current_pose = Frame2D.fromXYA(200, 100, 3.1416 / 2)
+# current_pose = Frame2D.fromXYA(200, 100, 3.1416 / 2)
+# current_pose = Frame2D.fromXYA(100, 200, 0)
+current_pose = Frame2D.fromXYA(200, 400, 3.1416 / 2)
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):
