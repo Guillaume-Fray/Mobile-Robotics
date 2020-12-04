@@ -123,10 +123,12 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
 # Compute /probability/ of cube being (i) visible AND being detected at a specific
 # measure position (relative to robot frame)
 def cube_sensor_model(true_cube_position, visible, measured_position):
-    x = math.fabs(measured_position.mat[0, 2])
-    y = math.fabs(measured_position.mat[1, 2])
-    a = measured_position.mat[2, 2]
+    x = math.fabs(true_cube_position.mat[0, 2])
+    y = math.fabs(true_cube_position.mat[1, 2])
+    a = true_cube_position.mat[2, 2]
     distance = math.fabs(x*x + y*y)
+
+    # should I use the measured_position for the distance? or use the mean of both?
 
     # Cube detection probability based on tests results
     if math.fabs(a) <= 0.4363 and 150 <= distance <= 500:
