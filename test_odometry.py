@@ -65,6 +65,17 @@ def create_spin_track_speeds():
 	return np.array(tracks_speeds)
 
 
+# Cozmo spins on the spot
+def create_spin_and_move_track_speeds():
+	tracks_speeds = []
+	for x in range(0, 400):
+		tracks_speeds.append([-60, 60])
+	for x in range(0, 50):
+		tracks_speeds.append([30, 30])
+
+	return np.array(tracks_speeds)
+
+
 # Cozmo spins, moves forward, spins again, moves forward, turns left, moves forward ans spins.
 def create_complex_track_speeds():
 	tracks_speeds = []
@@ -93,7 +104,8 @@ def create_complex_track_speeds():
 # track_speeds = create_square_track_speeds()
 # track_speeds = create_straight_track_speeds()
 # track_speeds = create_spin_track_speeds()
-track_speeds = create_complex_track_speeds()
+track_speeds = create_spin_and_move_track_speeds()
+# track_speeds = create_complex_track_speeds()
 
 
 # - 2 -
@@ -101,6 +113,7 @@ track_speeds = create_complex_track_speeds()
 # np.save("track_speed_square10", track_speeds)
 # np.save("track_speed_straight10", track_speeds)
 # np.save("track_speed_spin10", track_speeds)
+# np.save("track_speed_spin_and_move30", track_speeds)
 # np.save("track_speed_complex40", track_speeds)
 np.save("tests_to_adjust", track_speeds)
 
@@ -154,13 +167,16 @@ plt.scatter(poseVecs[:, len(track_speeds) - 1, 0], poseVecs[:, len(track_speeds)
 
 # - 3 -
 # Straight, Complex
-plt.xlim(-100, 600)
-plt.ylim(-200, 200)
+# plt.xlim(-100, 600)
+# plt.ylim(-200, 200)
 
 # Square, Spin
 # plt.xlim(-200, 450)
 # plt.ylim(-450, 150)
 
+# Spin-Move
+plt.xlim(-250, 250)
+plt.ylim(-250, 250)
 
 plt.show()
 
@@ -179,6 +195,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		# speeds = np.load("track_speed_square10.npy")
 		# speeds = np.load("track_speed_straight10.npy")
 		# speeds = np.load("track_speed_spin10.npy")
+		# speeds = np.load("track_speed_spin_and_move30.npy")
 		# speeds = np.load("track_speed_complex40.npy")
 		for i in range(0, len(speeds)):
 			print()
@@ -199,7 +216,8 @@ interval = 0.1
 # current_pose = Frame2D.fromXYA(100, 500, 3.1416 / 2)
 # current_pose = Frame2D.fromXYA(200, 100, 3.1416 / 2)
 # current_pose = Frame2D.fromXYA(100, 200, 0)
-current_pose = Frame2D.fromXYA(200, 400, 3.1416 / 2)
+current_pose = Frame2D.fromXYA(300, 200, 0)
+# current_pose = Frame2D.fromXYA(200, 400, 3.1416 / 2)
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):

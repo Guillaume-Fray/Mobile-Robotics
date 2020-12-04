@@ -7,9 +7,9 @@ import numpy as np
 wheelDistance = 81  # or 82
 
 # TODO find sensible noise amplitudes for motor model
-cozmoOdomNoiseX = 10
-cozmoOdomNoiseY = 10
-cozmoOdomNoiseTheta = 0.0000001
+cozmoOdomNoiseX = 0.01
+cozmoOdomNoiseY = 0.01
+cozmoOdomNoiseTheta = 0.000006
 
 
 # Forward kinematics: compute coordinate frame update as Frame2D from left/right track speed and time of movement
@@ -123,13 +123,55 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
 # Compute /probability/ of cube being (i) visible AND being detected at a specific
 # measure position (relative to robot frame)
 def cube_sensor_model(true_cube_position, visible, measured_position):
-    # proba_cliff = 0
-    # z = proba_cliff
+    x = math.fabs(measured_position.mat[0, 2])
+    y = math.fabs(measured_position.mat[1, 2])
+    a = math.atan2(measured_position.mat[1, 2], measured_position.mat[0, 2])
+    # or a = measured_position.mat[2, 2]??
+    distance = math.fabs(x*x + y*y)
 
-    # detect_proba =
-    # localis_accuracy =
-    # proba_cube = detect_proba*localis_accuracy
+    if visible and math.fabs(a) <= 0.4363 and 150 <= distance <= 500:
+        proba_visible = 0.95
 
-    # z = z*proba_cube
+    elif visible and 0.4363 < math.fabs(a) <= 0.5236 and 150 <= distance <= 400:
+        proba_visible = 0.6
 
-    return 1.0
+    elif visible and 0.4363 < math.fabs(a) <= 0.5236 and 400 < distance <= 500:
+        proba_visible = 0.5
+
+    elif visible and 0.4363 < math.fabs(a) <= 0.5236 and 500 < distance <= 600:
+        proba_visible = 0.3
+
+    elif visible and 0.2618 < math.fabs(a) <= 0.4363 and 500 < distance <= 600:
+        proba_visible = 0.4
+
+    elif visible and 0.17453 < math.fabs(a) <= 0.2618 and 500 < distance <= 600:
+        proba_visible = 0.5
+
+    elif visible and 0 < math.fabs(a) <= 0.17453 and 500 < distance <= 600:
+        proba_visible = 0.6
+
+    elif visible and 0.17453 < math.fabs(a) <= 0.2618 and 600 < distance <= 670:
+        proba_visible = 0.15
+
+    elif visible and 0 < math.fabs(a) <= 0.17453 and 600 < distance <= 670:
+        proba_visible = 0.05
+
+    elif visible and math.fabs(a) <= 0.08727 and distance < 150:
+        proba_visible = 0.3
+
+    elif visible and 0.08727 < math.fabs(a) <= 0.17453 and distance < 150:
+        proba_visible = 0.2
+
+    elif visible and 0.17453 < math.fabs(a) <= 0.2618 and distance < 150:
+        proba_visible = 0.4
+
+    elif visible and 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
+        proba_visible = 0.4
+
+    elif visible and 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
+        proba_visible = 0.4
+
+    else:
+        proba_visible = 0
+
+    return proba_visible

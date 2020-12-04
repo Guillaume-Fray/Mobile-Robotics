@@ -16,7 +16,9 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	# main loop
 	while not finished.is_set():
 		robot_pose = CozmoSimWorld._touch_only_for_experiments_get_position(simWorld)
-		print("Position: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
+		print()
+		print("Cozmo's position: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
+		print()
 		simWorld.drive_wheel_motors(0, 0)
 		time.sleep(2)
 
@@ -25,9 +27,14 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		for cubeID in cubeIDs:
 			cube_pose = simWorld.cube_pose_global(cubeID)
 			is_visible = simWorld.cube_is_visible(cubeID)
+			related_pose = robot_pose.inverse().mult(cube_pose)
+			x = math.fabs(related_pose.mat[0, 2])
+			y = math.fabs(related_pose.mat[1, 2])
 			print("Cube ID", i, " Visible --> ", is_visible)
 			print("   pose: " + str(cube_pose))
-			print("   Cube relative pose (2D): " + str(robot_pose.inverse().mult(cube_pose)))
+			print("   Cube relative pose (2D): " + str(related_pose))
+			distance = math.sqrt(x*x + y*y)
+			print("   Robot-Cube distance: " + str(distance))
 			print()
 			i = i + 1
 
@@ -35,7 +42,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 
 interval = 0.1
-current_pose = Frame2D.fromXYA(100, 200, 3.1416 / 4)  # 3.1416 / 4
+current_pose = Frame2D.fromXYA(460, 500, 25*(math.pi / 180))  # 35*(math.pi / 180), -(57+15)*(math.pi / 180)
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):
