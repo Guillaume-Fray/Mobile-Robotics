@@ -104,7 +104,7 @@ def target_pose_to_velocity_linear(relative_target: Frame2D):
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement by means of cubic spline interpolation 
 def target_pose_to_velocity_spline(relative_target: Frame2D):
-    arc_length = 20  # TODO --- arc length seems ok for now ---
+    arc_length = 20  # TODO --- find right arc_length and s ---
     s = 250
 
     target_position = Frame2D.toXYA(relative_target)
@@ -125,53 +125,60 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
 def cube_sensor_model(true_cube_position, visible, measured_position):
     x = math.fabs(measured_position.mat[0, 2])
     y = math.fabs(measured_position.mat[1, 2])
-    a = math.atan2(measured_position.mat[1, 2], measured_position.mat[0, 2])
-    # or a = measured_position.mat[2, 2]??
+    a = measured_position.mat[2, 2]
     distance = math.fabs(x*x + y*y)
 
-    if visible and math.fabs(a) <= 0.4363 and 150 <= distance <= 500:
-        proba_visible = 0.95
+    # Cube detection probability based on tests results
+    if math.fabs(a) <= 0.4363 and 150 <= distance <= 500:
+        proba = 0.95
 
-    elif visible and 0.4363 < math.fabs(a) <= 0.5236 and 150 <= distance <= 400:
-        proba_visible = 0.6
+    elif 0.4363 < math.fabs(a) <= 0.5236 and 150 <= distance <= 400:
+        proba = 0.6
 
-    elif visible and 0.4363 < math.fabs(a) <= 0.5236 and 400 < distance <= 500:
-        proba_visible = 0.5
+    elif 0.4363 < math.fabs(a) <= 0.5236 and 400 < distance <= 500:
+        proba = 0.5
 
-    elif visible and 0.4363 < math.fabs(a) <= 0.5236 and 500 < distance <= 600:
-        proba_visible = 0.3
+    elif 0.4363 < math.fabs(a) <= 0.5236 and 500 < distance <= 600:
+        proba = 0.3
 
-    elif visible and 0.2618 < math.fabs(a) <= 0.4363 and 500 < distance <= 600:
-        proba_visible = 0.4
+    elif 0.2618 < math.fabs(a) <= 0.4363 and 500 < distance <= 600:
+        proba = 0.4
 
-    elif visible and 0.17453 < math.fabs(a) <= 0.2618 and 500 < distance <= 600:
-        proba_visible = 0.5
+    elif 0.17453 < math.fabs(a) <= 0.2618 and 500 < distance <= 600:
+        proba = 0.5
 
-    elif visible and 0 < math.fabs(a) <= 0.17453 and 500 < distance <= 600:
-        proba_visible = 0.6
+    elif 0 < math.fabs(a) <= 0.17453 and 500 < distance <= 600:
+        proba = 0.6
 
-    elif visible and 0.17453 < math.fabs(a) <= 0.2618 and 600 < distance <= 670:
-        proba_visible = 0.15
+    elif 0.17453 < math.fabs(a) <= 0.2618 and 600 < distance <= 670:
+        proba = 0.15
 
-    elif visible and 0 < math.fabs(a) <= 0.17453 and 600 < distance <= 670:
-        proba_visible = 0.05
+    elif 0 < math.fabs(a) <= 0.17453 and 600 < distance <= 670:
+        proba = 0.05
 
-    elif visible and math.fabs(a) <= 0.08727 and distance < 150:
-        proba_visible = 0.3
+    elif math.fabs(a) <= 0.08727 and distance < 150:
+        proba = 0.3
 
-    elif visible and 0.08727 < math.fabs(a) <= 0.17453 and distance < 150:
-        proba_visible = 0.2
+    elif 0.08727 < math.fabs(a) <= 0.17453 and distance < 150:
+        proba = 0.2
 
-    elif visible and 0.17453 < math.fabs(a) <= 0.2618 and distance < 150:
-        proba_visible = 0.4
+    elif 0.17453 < math.fabs(a) <= 0.2618 and distance < 150:
+        proba = 0.4
 
-    elif visible and 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
-        proba_visible = 0.4
+    elif 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
+        proba = 0.4
 
-    elif visible and 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
-        proba_visible = 0.4
+    elif 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
+        proba = 0.4
 
     else:
-        proba_visible = 0
+        proba = 0.01
+
+
+    if visible:
+        proba_visible = proba
+    else:
+        proba_visible = 1 - proba
+
 
     return proba_visible
