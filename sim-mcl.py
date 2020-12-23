@@ -25,18 +25,18 @@ mapPrior = Uniform(
 
 
 # TODO Major parameter to choose: number of particles
-numParticles = 50
+numParticles = 300
 
 # The main data structure: array for particles, each represnted as Frame2D
 particles = sampleFromPrior(mapPrior, numParticles)
 
 #noise injected in re-sampling process to avoid multiple exact duplications of a particle
 # TODO Choose sensible re-sampling variation
-xyaResampleVar = np.diag([10, 10, 10*math.pi/180])
+xyaResampleVar = np.diag([10, 10, 0.001*math.pi/180])
 
 # note here: instead of creating new gaussian random numbers every time, which is /very/ expensive,
 # 	precompute a large table of them and recycle. GaussianTable does that internally
-xyaResampleNoise = GaussianTable(np.zeros([3]), xyaResampleVar, 10000)
+xyaResampleNoise = GaussianTable(np.zeros([3]), xyaResampleVar, 10000)  # 10000
 
 # Motor error model
 cozmoOdomNoiseX = 0.01
@@ -83,47 +83,54 @@ def runMCLLoop(simWorld: CozmoSimWorld, finished):
 
 		# read global variable
 		currentParticles = particles
+		print(' ')
 
-		# MCL step 1: prediction (shift particle through motion model), basically add x,y and theta delta_with_noise
+		# MCL step 1: prediction (shift particle through motion model), basically add x,y and theta noise
 		# to model's predictions
 		delta = track_speed_to_pose_change(lspeed, rspeed, interval).toXYA()
+		visible = False
 		# For each particle
 		for i in range(0, numParticles):
-			# TODO
 			next_x_w_noise = delta[0] + cozmoOdomNoiseX
 			next_y_w_noise = delta[1] + cozmoOdomNoiseY
 			next_a_w_noise = delta[2] + cozmoOdomNoiseTheta
 			delta_with_noise = Frame2D.fromXYA(next_x_w_noise, next_y_w_noise, next_a_w_noise)
 
-			# dx = 200-currentParticles[i].x()
-			# dy = 350-currentParticles[i].y()
-			# v = math.sqrt(lspeed*lspeed + rspeed*rspeed)
-
 			currentParticles[i] = currentParticles[i].mult(delta_with_noise)
-			# TODO Instead: shift particles along deterministic motion model, then add perturbation with xyaNoise (see above)
 		# See run-odom-vis.py under "Run simulations" 
 
 		# MCL step 2: weighting (weigh particles with sensor model)
-		# 	cube_sensor_model(true_cube_position, visible, measured_position
 		for i in range(0, numParticles):
-			# TODO this is all wrong (again) ...
-			particleWeights[i] = cozmo_cliff_sensor_model(currentParticles[i], m, cliffDetected)
-		# TODO instead, assign the product of all individual sensor models as weight (including cozmo_cliff_sensor_model!)
-		# See run-sensor-model.py under "compute position beliefs"
+			cliff_weight = cozmo_cliff_sensor_model(currentParticles[i], m, cliffDetected)
+			inv_curr_particles = currentParticles[i].inverse()
+
+			for cube in cubeIDs:
+				rel_real_cube_pose = inv_curr_particles.mult(simWorld.cube_pose_global(cube))
+				rel_measured_cube_pose = cubeRelativeFrames[cube]
+				cube_sensor_weight = cube_sensor_model(rel_real_cube_pose, cubeVisibility[cube], rel_measured_cube_pose)
+				particleWeights[i] = cliff_weight*cube_sensor_weight
+				if cubeVisibility[cube]:
+					visible = True
 
 		# MCL step 3: resampling (proportional to weights)
-		# TODO not completely wrong, but not yet solving the problem
-		newParticles = resampleIndependent(currentParticles, particleWeights, numParticles, xyaResampleNoise)
+		# newParticles = resampleIndependent(currentParticles, particleWeights, numParticles , xyaResampleNoise)
 		# TODO Draw a number of "fresh" samples from all over the map and add them in order
 		# 		to recover form mistakes (use sampleFromPrior from mcl_tools.py)
+		if visible or cliffDetected:
+			num_new_samples = 5
+		else:
+			num_new_samples = 0
+
+		fresh_samples = sampleFromPrior(mapPrior, num_new_samples)
 		# TODO Keep the overall number of samples at numParticles
 		# TODO Compare the independent re-sampling with "resampleLowVar" from mcl_tools.py
+		newParticles = resampleLowVar(currentParticles, particleWeights, numParticles - num_new_samples, xyaResampleNoise)
 		# TODO Find reasonable amplitues for the resampling noise xyaResampleNoise (see above)
 		# TODO Can you dynamically determine a reasonable number of "fresh" samples.
 		# 		For instance: under which circumstances could it be better to insert no fresh samples at all?
 
 		# write global variable
-		particles = newParticles
+		particles = newParticles + fresh_samples
 
 		print("t = "+str(t), end="\r\n")
 		t = t+1
@@ -168,8 +175,9 @@ def runMCLPlotLoop(m: CozmoMap, simWorld: CozmoSimWorld, finished):
 	t = 0
 	while not finished.is_set():
 		# update plot	
-		for i in range(0,numParticles):
-			particlesXYA[i,:] = particles[i].toXYA()
+		for i in range(0, numParticles):
+			particlesXYA[i, :] = particles[i].toXYA()
+
 		particlePlot.set_offsets(particlesXYA[:, 0:2])
 
 		empiricalG = Gaussian.fromData(particlesXYA[:, 0:2])
@@ -195,15 +203,30 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 	target = Frame2D.fromXYA(400, 760, 90*(math.pi / 180))
 
 	while not finished.is_set():
-		# simWorld.drive_wheel_motors(60, -60)
-		# time.sleep(10)
-		# simWorld.drive_wheel_motors(30, 30)
-		# time.sleep(20)
-		# simWorld.drive_wheel_motors(30, 21)
-		# time.sleep(10)
-
-		simWorld.drive_wheel_motors(20, 8)
-		time.sleep(53)
+		#simWorld.drive_wheel_motors(30, 30)
+		#time.sleep(15)
+		#simWorld.drive_wheel_motors(-30, -30)
+		#time.sleep(15)
+		simWorld.drive_wheel_motors(30, -30)
+		time.sleep(3)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(15)
+		simWorld.drive_wheel_motors(-30, 30)
+		time.sleep(3)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(6)
+		simWorld.drive_wheel_motors(-30, 30)
+		time.sleep(2.7)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(8)
+		simWorld.drive_wheel_motors(30, 13)
+		time.sleep(20)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(9)
+		simWorld.drive_wheel_motors(40, -40)
+		time.sleep(15)
+		simWorld.drive_wheel_motors(0, 0)
+		time.sleep(3)
 
 		# if cube 1 visible:
 			# turn until you see cube 2
