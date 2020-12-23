@@ -1,5 +1,5 @@
 
-
+import cozmo
 from cozmo_interface import track_speed_to_pose_change
 from cozmo_sim_world_plot import *
 import threading
@@ -22,17 +22,19 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		simWorld.drive_wheel_motors(0, 0)
 		time.sleep(2)
 
-		cubeIDs = (cozmo.objects.LightCube1Id,cozmo.objects.LightCube2Id,cozmo.objects.LightCube3Id)
+		cubeIDs = (cozmo.objects.LightCube1Id, cozmo.objects.LightCube2Id, cozmo.objects.LightCube3Id)
 		i = 1
 		for cubeID in cubeIDs:
 			cube_pose = simWorld.cube_pose_global(cubeID)
+			cube_related_pose = simWorld.cube_pose_relative(cubeID)
 			is_visible = simWorld.cube_is_visible(cubeID)
-			related_pose = robot_pose.inverse().mult(cube_pose)
-			x = math.fabs(related_pose.mat[0, 2])
-			y = math.fabs(related_pose.mat[1, 2])
+			measured_pose = robot_pose.inverse().mult(cube_pose)
+			x = math.fabs(measured_pose.mat[0, 2])
+			y = math.fabs(measured_pose.mat[1, 2])
 			print("Cube ID", i, " Visible --> ", is_visible)
-			print("   pose: " + str(cube_pose))
-			print("   Cube relative pose (2D): " + str(related_pose))
+			# print("   pose: " + str(cube_pose))   This the global pose from the map perspective - Irrelevant
+			print("   Cube real related pose (2D): " + str(cube_related_pose))
+			print("   Cube measured pose (2D): " + str(measured_pose))
 			distance = math.sqrt(x*x + y*y)
 			print("   Robot-Cube distance: " + str(distance))
 			print()
@@ -41,8 +43,9 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		finished.set()
 
 
+
 interval = 0.1
-current_pose = Frame2D.fromXYA(460, 500, 25*(math.pi / 180))  # 35*(math.pi / 180), -(57+15)*(math.pi / 180)
+current_pose = Frame2D.fromXYA(300, 300, 45*(math.pi / 180))  # 35*(math.pi / 180), -(57+15)*(math.pi / 180)
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):

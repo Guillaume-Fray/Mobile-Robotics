@@ -121,66 +121,81 @@ def target_pose_to_velocity_spline(relative_target: Frame2D):
 
 # Take a true cube position (relative to robot frame). 
 # Compute /probability/ of cube being (i) visible AND being detected at a specific
-# measure position (relative to robot frame)
+# measured position (relative to robot frame)
 def cube_sensor_model(true_cube_position, visible, measured_position):
-    x = math.fabs(true_cube_position.mat[0, 2])
-    y = math.fabs(true_cube_position.mat[1, 2])
+    x = true_cube_position.mat[0, 2]
+    y = true_cube_position.mat[1, 2]
     a = true_cube_position.mat[2, 2]
-    distance = math.fabs(x*x + y*y)
+    distance = math.sqrt(x*x + y*y)
 
-    # should I use the measured_position for the distance? or use the mean of both?
+    measured_x = math.fabs(measured_position.mat[0, 2])
+    measured_y = math.fabs(measured_position.mat[1, 2])
+    measured_a = measured_position.mat[2, 2]
 
-    # Cube detection probability based on tests results
+
+    sigma_x = 42
+    sigma_y = 17
+    sigma_theta = 0.2585
+
+    # Cube visibility probability based on tests results
     if math.fabs(a) <= 0.4363 and 150 <= distance <= 500:
-        proba = 0.95
+        proba_vis = 0.95
 
     elif 0.4363 < math.fabs(a) <= 0.5236 and 150 <= distance <= 400:
-        proba = 0.6
+        proba_vis = 0.6
 
     elif 0.4363 < math.fabs(a) <= 0.5236 and 400 < distance <= 500:
-        proba = 0.5
+        proba_vis = 0.5
 
     elif 0.4363 < math.fabs(a) <= 0.5236 and 500 < distance <= 600:
-        proba = 0.3
+        proba_vis = 0.3
 
     elif 0.2618 < math.fabs(a) <= 0.4363 and 500 < distance <= 600:
-        proba = 0.4
+        proba_vis = 0.4
 
     elif 0.17453 < math.fabs(a) <= 0.2618 and 500 < distance <= 600:
-        proba = 0.5
+        proba_vis = 0.5
 
     elif 0 < math.fabs(a) <= 0.17453 and 500 < distance <= 600:
-        proba = 0.6
+        proba_vis = 0.6
 
     elif 0.17453 < math.fabs(a) <= 0.2618 and 600 < distance <= 670:
-        proba = 0.15
+        proba_vis = 0.15
 
     elif 0 < math.fabs(a) <= 0.17453 and 600 < distance <= 670:
-        proba = 0.05
+        proba_vis = 0.05
 
     elif math.fabs(a) <= 0.08727 and distance < 150:
-        proba = 0.3
+        proba_vis = 0.3
 
     elif 0.08727 < math.fabs(a) <= 0.17453 and distance < 150:
-        proba = 0.2
+        proba_vis = 0.2
 
     elif 0.17453 < math.fabs(a) <= 0.2618 and distance < 150:
-        proba = 0.4
+        proba_vis = 0.4
 
     elif 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
-        proba = 0.4
+        proba_vis = 0.4
 
     elif 0.2618 < math.fabs(a) <= 0.5236 and distance < 150:
-        proba = 0.4
+        proba_vis = 0.4
 
     else:
-        proba = 0.01
-
+        proba_vis = 0.01
 
     if visible:
-        proba_visible = proba
+        proba_visible = proba_vis
+        # the factors below were found experimentally
+        x_error = (x - measured_x / (sigma_x**2)) ** 2
+        y_error = (y - measured_y / (sigma_y**2)) ** 2
+        theta_error = (a - measured_y / (sigma_theta**2)) ** 2
+        proba_position = math.exp(-0.5 * (x_error + y_error + theta_error))  # on average ~0.652 or 65.2%
+
     else:
-        proba_visible = 1 - proba
+        proba_visible = 1 - proba_vis
+        proba_position = 1
 
+    proba = proba_visible * proba_position
 
-    return proba_visible
+    return proba
+

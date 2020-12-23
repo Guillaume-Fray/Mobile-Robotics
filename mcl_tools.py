@@ -80,17 +80,17 @@ def resampleIndependent(particles, particleWeights, numNewParticles, xyaDistro=N
 	newParticles = []
 	for i in range(0,numNewParticles):
 		# pick random number 
-		rand = np.random.uniform(0.,1.) 
+		rand = np.random.uniform(0., 1.)
 
 		# find particle with matching cumulative weight in list
 		for n in range(0,numParticles):
 			if cmWeights[n] >= rand:
-				newParticles.append(resample(particles[n],xyaDistro))
+				newParticles.append(resample(particles[n], xyaDistro))
 				break
 	
 	return newParticles
 
-# Low variance resampling. Will perturbe only publicates (first copy of any particle is unperturbed.)
+# Low variance resampling. Will perturbe only dublicates (first copy of any particle is unperturbed.)
 # Returns: list of numNewParticles particles (Frame2D)
 def resampleLowVar(particles, particleWeights, numNewParticles, xyaDistro=None):
 	numParticles = len(particles)
