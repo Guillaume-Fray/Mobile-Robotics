@@ -4,9 +4,9 @@ from frame2d import Frame2D
 import math
 import numpy as np
 
-wheelDistance = 81  # or 82
+wheelDistance = 80
 
-# TODO find sensible noise amplitudes for motor model
+#
 cozmoOdomNoiseX = 0.01
 cozmoOdomNoiseY = 0.01
 cozmoOdomNoiseTheta = 0.000006

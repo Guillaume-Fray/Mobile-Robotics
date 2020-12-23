@@ -38,9 +38,9 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 	# main loop
 	while not finished.is_set():
-		print("currentPosition: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
+		print("real start current position: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
+		print("estimated start position: ", current_pose)
 		print("\n")
-		print("Start", end="\r\n")
 		print("\n")
 
 		# print("Straight", end="\r\n")
@@ -49,46 +49,29 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		# time.sleep(30)
 		# time.sleep(20)
 
-		# print("Turn _", end="\r\n")
-		# time.sleep(8)
-		# simWorld.drive_wheel_motors(5, 15)
+		# print("Turn", end="\r\n")
+		# simWorld.drive_wheel_motors(20, 13)
+		# time.sleep(23)
 
-		# print("Full circle _", end="\r\n")
-		# simWorld.drive_wheel_motors(24, 12)
-		# time.sleep(53.5)
+		# print("Circle", end="\r\n")
+		simWorld.drive_wheel_motors(20, 8)
+		time.sleep(53)
 
-		print("Rectangle", end="\r\n")
-		simWorld.drive_wheel_motors(60, 60)
-		time.sleep(10)
-		simWorld.drive_wheel_motors(22, -22)
-		time.sleep(3.6)
-		simWorld.drive_wheel_motors(30, 30)
-		time.sleep(5)
-		simWorld.drive_wheel_motors(22, -22)
-		time.sleep(3.6)
-		simWorld.drive_wheel_motors(60, 60)
-		time.sleep(10)
-		simWorld.drive_wheel_motors(22, -22)
-		time.sleep(3.6)
-		simWorld.drive_wheel_motors(30, 30)
-		time.sleep(4.5)
-		simWorld.drive_wheel_motors(22, -22)
-		time.sleep(3.6)
-
-
-		print("Stop", end="\r\n")
+		# print("Stop", end="\r\n")
 		simWorld.drive_wheel_motors(0, 0)
-		time.sleep(60)
-
-		# simWorld.drive_wheel_motors(10, 10)
-		# time.sleep(24)
-		print("currentPosition: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
-
+		time.sleep(6)
+		print("\n")
+		print("\n")
+		print("real final current position: ", CozmoSimWorld._touch_only_for_experiments_get_position(simWorld))
+		print("estimated final position: ", current_pose)
+		print("\n")
+		print("\n")
+		finished.set()
 
 interval = 0.1
 # currentPose = Frame2D.fromXYA(200,350,3.1416/2) # original given position
-# currentPose = Frame2D.fromXYA(100,100,0) # for testing straight motion parallel to the x-axis
-current_pose = Frame2D.fromXYA(100, 200, 3.1416 / 2)  # for testing full circle and straight motion parallel to the y-axis
+# current_pose = Frame2D.fromXYA(100, 500, 3.1416 / 2)  # for turn testing
+current_pose = Frame2D.fromXYA(100, 200, 3.1416 / 2)  # for testing full circle
 
 
 def cozmo_update_position(simWorld: CozmoSimWorld, finished):
