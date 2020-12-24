@@ -104,14 +104,16 @@ def target_pose_to_velocity_linear(relative_target: Frame2D):
 # Trajectory planning: given target (relative to robot frame), determine next forward/angular motion
 # Implement by means of cubic spline interpolation 
 def target_pose_to_velocity_spline(relative_target: Frame2D):
-    arc_length = 20  # TODO --- find right arc_length and s ---
-    s = 250
-
     target_position = Frame2D.toXYA(relative_target)
     x = target_position[0]
     y = target_position[1]
+    d = math.sqrt(x**2 + y**2)
+
+    arc_length = math.sqrt(d)*2  # same as below but had to be adjusted - better results so far
+    s = d  # so that robot slows down at it approaches the target - gives better results
 
     vy = relative_target.mat[1, 0]  # vy = final velocity's y component
+
     k = (2 * ((3 * y) - (s * vy))) / (s * s)  # k = curvature = radius of osculating circle
     velocity = arc_length  # forward velocity
     angular = arc_length * k  # angular velocity
@@ -130,8 +132,6 @@ def cube_sensor_model(true_cube_position, visible, measured_position):
 
     measured_x = math.fabs(measured_position.mat[0, 2])
     measured_y = math.fabs(measured_position.mat[1, 2])
-    measured_a = measured_position.mat[2, 2]
-
 
     sigma_x = 42
     sigma_y = 17

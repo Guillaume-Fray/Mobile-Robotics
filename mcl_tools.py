@@ -51,7 +51,7 @@ def sampleFromPrior(mapPrior, numParticles):
 
 # Returns normalized cumulative weights for a given list of weights. E.g. [0.5, 2.5, 2] -> [0.1, 0.6, 1.0]
 def cumulNormWeights(particleWeights):
-	s = 0.0 # sum
+	s = 0.0  # sum
 	for w in particleWeights:
 		s = s+w
 	normWeights = [particleWeights[0]/s]

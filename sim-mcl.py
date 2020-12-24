@@ -25,14 +25,14 @@ mapPrior = Uniform(
 
 
 # TODO Major parameter to choose: number of particles
-numParticles = 300
+numParticles = 200
 
 # The main data structure: array for particles, each represnted as Frame2D
 particles = sampleFromPrior(mapPrior, numParticles)
 
 #noise injected in re-sampling process to avoid multiple exact duplications of a particle
 # TODO Choose sensible re-sampling variation
-xyaResampleVar = np.diag([10, 10, 0.001*math.pi/180])
+xyaResampleVar = np.diag([10, 10, 0.00006*math.pi/180])
 
 # note here: instead of creating new gaussian random numbers every time, which is /very/ expensive,
 # 	precompute a large table of them and recycle. GaussianTable does that internally
@@ -201,14 +201,11 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 	on_target = False
 	target = Frame2D.fromXYA(400, 760, 90*(math.pi / 180))
+	# cozmo.enable_stop_on_cliff(True)
 
 	while not finished.is_set():
-		#simWorld.drive_wheel_motors(30, 30)
-		#time.sleep(15)
-		#simWorld.drive_wheel_motors(-30, -30)
-		#time.sleep(15)
 		simWorld.drive_wheel_motors(30, -30)
-		time.sleep(3)
+		time.sleep(3.5)
 		simWorld.drive_wheel_motors(30, 30)
 		time.sleep(15)
 		simWorld.drive_wheel_motors(-30, 30)
@@ -219,14 +216,22 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		time.sleep(2.7)
 		simWorld.drive_wheel_motors(30, 30)
 		time.sleep(8)
-		simWorld.drive_wheel_motors(30, 13)
-		time.sleep(20)
+		simWorld.drive_wheel_motors(30, 14)
+		time.sleep(18)
 		simWorld.drive_wheel_motors(30, 30)
-		time.sleep(9)
+		time.sleep(7)
+		simWorld.drive_wheel_motors(-40, 40)
+		time.sleep(4)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(12)
 		simWorld.drive_wheel_motors(40, -40)
-		time.sleep(15)
-		simWorld.drive_wheel_motors(0, 0)
 		time.sleep(3)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(15)
+		simWorld.drive_wheel_motors(40, -40)
+		time.sleep(2)
+		simWorld.drive_wheel_motors(30, 30)
+		time.sleep(5)
 
 		# if cube 1 visible:
 			# turn until you see cube 2

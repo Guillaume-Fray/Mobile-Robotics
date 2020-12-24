@@ -85,7 +85,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
         simWorld.drive_wheel_motors(track_speed[0], track_speed[1])
         time.sleep(interval)
 
-        if d < 50:
+        if d < 30:
             finished.set()
 
 
