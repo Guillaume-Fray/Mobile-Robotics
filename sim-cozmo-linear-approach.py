@@ -94,7 +94,7 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		print("relative_target"+str(relative_target), end="\r\n")
 		print()
 
-		if d < 70:
+		if d < 60:
 			on_target = True
 			# 0.035 = 2 degrees (+/-)
 			print('relative angle a = ', a)

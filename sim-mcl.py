@@ -16,7 +16,7 @@ import time
 # this data structure represents the map
 m = loadU08520Map()
 initial_pose = Frame2D.fromXYA(100, 200, 3.1416/2)
-current_pose = initial_pose
+position = initial_pose
 
 # this probability distribution represents a uniform distribution over the entire map in any orientation
 mapPrior = Uniform(
@@ -24,15 +24,15 @@ mapPrior = Uniform(
 		np.array([m.grid.maxX(), m.grid.maxY(), 2*math.pi]))
 
 
-# TODO Major parameter to choose: number of particles
+#
 numParticles = 200
 
 # The main data structure: array for particles, each represnted as Frame2D
 particles = sampleFromPrior(mapPrior, numParticles)
 
 #noise injected in re-sampling process to avoid multiple exact duplications of a particle
-# TODO Choose sensible re-sampling variation
-xyaResampleVar = np.diag([10, 10, 0.00006*math.pi/180])
+#
+xyaResampleVar = np.diag([10, 30, 5*math.pi/180])  # x: 5-10, y:30, theta: 5
 
 # note here: instead of creating new gaussian random numbers every time, which is /very/ expensive,
 # 	precompute a large table of them and recycle. GaussianTable does that internally
@@ -49,7 +49,7 @@ xyaNoise = GaussianTable(np.zeros([3]), xyaNoiseVar, 10000)
 
 def runMCLLoop(simWorld: CozmoSimWorld, finished):
 	global particles
-	global current_pose
+	global position
 	
 	particleWeights = np.zeros([numParticles])
 	cubeIDs = [cozmo.objects.LightCube1Id, cozmo.objects.LightCube2Id, cozmo.objects.LightCube3Id]
@@ -114,20 +114,14 @@ def runMCLLoop(simWorld: CozmoSimWorld, finished):
 
 		# MCL step 3: resampling (proportional to weights)
 		# newParticles = resampleIndependent(currentParticles, particleWeights, numParticles , xyaResampleNoise)
-		# TODO Draw a number of "fresh" samples from all over the map and add them in order
-		# 		to recover form mistakes (use sampleFromPrior from mcl_tools.py)
 		if visible or cliffDetected:
-			num_new_samples = 5
+			num_new_samples = 3  # or 5
 		else:
 			num_new_samples = 0
 
 		fresh_samples = sampleFromPrior(mapPrior, num_new_samples)
-		# TODO Keep the overall number of samples at numParticles
-		# TODO Compare the independent re-sampling with "resampleLowVar" from mcl_tools.py
 		newParticles = resampleLowVar(currentParticles, particleWeights, numParticles - num_new_samples, xyaResampleNoise)
-		# TODO Find reasonable amplitues for the resampling noise xyaResampleNoise (see above)
-		# TODO Can you dynamically determine a reasonable number of "fresh" samples.
-		# 		For instance: under which circumstances could it be better to insert no fresh samples at all?
+		# For instance: under which circumstances could it be better to insert no fresh samples at all?
 
 		# write global variable
 		particles = newParticles + fresh_samples
@@ -141,7 +135,35 @@ def runMCLLoop(simWorld: CozmoSimWorld, finished):
 			time.sleep(interval - timeTaken)
 		else:
 			print("Warning: loop iteration tool more than "+str(interval) + " seconds (t="+str(timeTaken)+")", end="\r\n")
-			
+
+
+def average_particles():
+	global position
+	x = 0
+	y = 0
+	a = 0
+
+	for i in range(0, numParticles):
+		x = x + particles[i]
+		y = y + particles[i]
+		a = a + particles[i]
+
+	x = x/numParticles
+	y = y/numParticles
+	a = a/numParticles
+
+	position = Frame2D.fromXYA(x, y, a)
+
+	return position
+
+
+def explore():
+	simWorld.drive_wheel_motors(40, 40)
+	time.sleep(5)
+	simWorld.drive_wheel_motors(30, -30)
+	time.sleep(3)
+
+
 
 
 def runMCLPlotLoop(m: CozmoMap, simWorld: CozmoSimWorld, finished):
@@ -201,9 +223,13 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 
 	on_target = False
 	target = Frame2D.fromXYA(400, 760, 90*(math.pi / 180))
-	# cozmo.enable_stop_on_cliff(True)
+	cubeIDs = [cozmo.objects.LightCube1Id, cozmo.objects.LightCube2Id, cozmo.objects.LightCube3Id]
+	cliff_detected = simWorld.is_cliff_detected()
+	visible = False
+	global position
 
 	while not finished.is_set():
+		# TODO --- this part was used for testing the MC implementation and parameters settings (TASK 3)
 		simWorld.drive_wheel_motors(30, -30)
 		time.sleep(3.5)
 		simWorld.drive_wheel_motors(30, 30)
@@ -227,30 +253,59 @@ def runCozmoMainLoop(simWorld: CozmoSimWorld, finished):
 		simWorld.drive_wheel_motors(40, -40)
 		time.sleep(3)
 		simWorld.drive_wheel_motors(30, 30)
-		time.sleep(15)
+		time.sleep(13)
 		simWorld.drive_wheel_motors(40, -40)
-		time.sleep(2)
+		time.sleep(3)
 		simWorld.drive_wheel_motors(30, 30)
 		time.sleep(5)
-
-		# if cube 1 visible:
-			# turn until you see cube 2
-			# go towards cube 2 until you know where you are
-			# then go towards target
-
-		# if cube 2 visible:
-			# turn until you see cube 3
-			# go towards cube 3 until you know where you are
-			# then go towards target
-
-		# if cube 3 visible:
-			# turn until you see cube 2
-			# go towards cube 3 until you know where you are
-			# then go towards target
-
-
-
 		finished.set()
+		# TODO --- End of testing
+
+
+
+
+
+
+
+
+
+		# TODO --- This part below is not working  ---
+		# explore()
+
+		# position = average_particles()
+
+		# inv_current_pose = position.inverse()
+		# relative_target = inv_current_pose.mult(target)
+
+		# rel_targ = relative_target.toXYA()
+		# x = rel_targ[0]
+		# y = rel_targ[1]
+		# d = math.sqrt(x * x + y * y)  # distance between current position and target position
+
+		# if not (d < 50):
+			# explore()
+
+			# if d < 50:
+				# print("Target found!")
+				# finished.set()
+
+			# drive away from the cliff guard
+			# if cliff_detected:
+				# simWorld.drive_wheel_motors(-40, 40)
+				# time.sleep(3)
+				# simWorld.drive_wheel_motors(30, 30)
+				# time.sleep(3)
+
+
+		# velocity = target_pose_to_velocity_spline(relative_target)
+		# track_speed = velocity_to_track_speed(velocity[0], velocity[1])
+		# lspeed = simWorld.left_wheel_speed()
+		# rspeed = simWorld.right_wheel_speed()
+		# delta = track_speed_to_pose_change(lspeed, rspeed, interval)
+		# position = position.mult(delta)
+
+		# simWorld.drive_wheel_motors(track_speed[0], track_speed[1])
+		# time.sleep(interval)
 
 
 interval = 0.1
